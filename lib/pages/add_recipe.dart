@@ -2,6 +2,7 @@ import 'dart:io'; // Para manejar archivos de imagen
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; // Para agregar imágenes
 import 'package:recipes/models/combined_model.dart'; // Importa tu modelo para el DatePicker
+import 'package:recipes/widgets/add_expenses/bs_category.dart';
 import 'package:recipes/widgets/date_picker.dart'; // Importa tu clase DatePicker
 
 class AddRecipe extends StatefulWidget {
@@ -16,7 +17,8 @@ class _AddRecipeState extends State<AddRecipe> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   XFile? _image;
-  final CombinedModel _combinedModel = CombinedModel(day: 0); // Inicializar modelo para el DatePicker
+  final CombinedModel _combinedModel =
+      CombinedModel(day: 0); // Inicializar modelo para el DatePicker
 
   Future<void> _pickImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -84,6 +86,9 @@ class _AddRecipeState extends State<AddRecipe> {
                 ),
                 const SizedBox(height: 16),
 
+                BsCategory(cModel: _combinedModel),
+                const SizedBox(height: 16),
+
                 // Usar DatePicker personalizado
                 DatePicker(cModel: _combinedModel),
                 const SizedBox(height: 16),
@@ -95,7 +100,8 @@ class _AddRecipeState extends State<AddRecipe> {
                     _image == null
                         ? const Text('No se ha seleccionado imagen')
                         : Image.file(
-                            File(_image!.path), // Mostrar la imagen seleccionada
+                            File(
+                                _image!.path), // Mostrar la imagen seleccionada
                             width: 100,
                             height: 100,
                           ),
