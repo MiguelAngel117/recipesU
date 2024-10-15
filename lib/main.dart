@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:recipes/pages/FeedPage.dart';
 import 'package:recipes/pages/recipe_detail_page.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes/provider/expenses_provider.dart';
+import 'package:recipes/providers/expenses_provider.dart';
 import 'package:recipes/providers/ui_provider.dart';
 
 void main() {

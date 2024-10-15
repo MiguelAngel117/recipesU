@@ -1,5 +1,5 @@
 import 'package:recipes/models/features_model.dart';
-import 'package:recipes/provider/expenses_provider.dart';
+import 'package:recipes/providers/expenses_provider.dart';
 import 'package:recipes/utils/constants.dart';
 import 'package:recipes/utils/utils.dart';
 import 'package:flutter/material.dart';
