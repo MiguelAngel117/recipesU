@@ -1,6 +1,8 @@
+import 'dart:io'; // Para manejar archivos locales
 import 'package:flutter/material.dart';
 import 'package:recipes/models/recipe_model.dart';
 import 'package:recipes/providers/recipe_db.dart';
+import 'package:recipes/pages/edit_recipe_page.dart'; // Importa la página de edición
 
 class RecipeListPage extends StatefulWidget {
   const RecipeListPage({Key? key}) : super(key: key);
@@ -23,27 +25,22 @@ class _RecipeListPageState extends State<RecipeListPage> {
   Future<void> loadRecipes() async {
     try {
       List<RecipeModel> loadedRecipes = await RecipeDatabase.db.getRecipes();
-      if (loadedRecipes.isNotEmpty) {
-        setState(() {
-          recipes = loadedRecipes;
-          isLoading = false; // Deja de cargar si se obtienen recetas
-        });
-      } else {
-        throw Exception('No se encontraron recetas');
-      }
+      setState(() {
+        recipes = loadedRecipes;
+        isLoading = false; // Deja de cargar si se obtienen recetas
+      });
     } catch (error) {
       setState(() {
         errorMessage = 'Error al cargar recetas: ${error.toString()}';
         isLoading = false;
       });
 
-      // Navegar a otra página después de un retraso
+      // Opcionalmente, puedes navegar a una página de error después de un retraso
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  const ErrorPage()), // Navega a una página de error
+              builder: (context) => const ErrorPage()), // Página de error
         );
       });
     }
@@ -52,9 +49,8 @@ class _RecipeListPageState extends State<RecipeListPage> {
   Future<void> deleteRecipe(int id) async {
     try {
       await RecipeDatabase.db.deleteRecipe(id);
-      loadRecipes();
+      loadRecipes(); // Recargar recetas después de eliminar
     } catch (error) {
-      // Manejo de error si no se puede eliminar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('Error al eliminar receta: ${error.toString()}')),
@@ -67,10 +63,10 @@ class _RecipeListPageState extends State<RecipeListPage> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            EditRecipePage(recipe: recipe), // Navega a la página de edición
+            EditRecipePage(recipe: recipe), // Navegar a la página de edición
       ),
     );
-    loadRecipes(); // Recarga las recetas después de la edición
+    loadRecipes(); // Recargar recetas después de la edición
   }
 
   @override
@@ -97,8 +93,16 @@ class _RecipeListPageState extends State<RecipeListPage> {
                     return Card(
                       margin: const EdgeInsets.all(10),
                       child: ListTile(
-                        leading: Image.asset(recipe
-                            .imagePath), // Asumiendo que la imagen está en assets
+                        leading: recipe.imagePath.isNotEmpty &&
+                                File(recipe.imagePath).existsSync()
+                            ? Image.file(
+                                File(recipe
+                                    .imagePath), // Mostrar imagen si existe
+                                width: 100,
+                                height: 100,
+                              )
+                            : const Icon(Icons.image,
+                                size: 50), // Icono si no hay imagen
                         title: Text(recipe.name),
                         subtitle: Text(recipe.description),
                         trailing: Row(
@@ -146,8 +150,8 @@ class _RecipeListPageState extends State<RecipeListPage> {
                           ],
                         ),
                         onTap: () {
-                          // Aquí puedes navegar a una página de detalles si lo deseas
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeDetailPage(recipe: recipe)));
+                          // Aquí puedes navegar a una página de detalles
+                          //Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeDetailPage(recipe: recipe)));
                         },
                       ),
                     );
@@ -155,8 +159,6 @@ class _RecipeListPageState extends State<RecipeListPage> {
                 ),
     );
   }
-
-  EditRecipePage({required RecipeModel recipe}) {}
 }
 
 class ErrorPage extends StatelessWidget {
