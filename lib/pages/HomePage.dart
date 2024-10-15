@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:recipes/pages/account_page.dart';
 
 import '../utils/Listfood.dart';
 import 'DetailPage.dart';
@@ -12,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final listFood = RecipeList().listFood;
 
   @override
@@ -28,10 +28,10 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Padding(padding: EdgeInsets.only(top: 50)),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
@@ -49,10 +49,21 @@ class _HomePageState extends State<HomePage> {
                           )),
                     ],
                   ),
-                  Padding(padding: EdgeInsets.only(right: 20)),
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundImage: AssetImage('assets/images/pics.jpg'),
+                  const Padding(padding: EdgeInsets.only(right: 20)),
+                  InkWell(
+                    onTap: () {
+                      // Navegar a la página de cuenta al hacer clic
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AccountPage(),
+                        ),
+                      );
+                    },
+                    child: const CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage('assets/images/pics.jpg'),
+                    ),
                   ),
                 ],
               ),
@@ -84,7 +95,6 @@ class _HomePageState extends State<HomePage> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
@@ -94,14 +104,17 @@ class _HomePageState extends State<HomePage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image(image: AssetImage(listFood[index].image.toString()),height: 75,),
+                                Image(
+                                  image: AssetImage(
+                                      listFood[index].image.toString()),
+                                  height: 75,
+                                ),
                                 Text(listFood[index].name.toString(),
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FontStyle.italic,
                                       fontSize: 15,
-
                                     )),
                               ],
                             ),
@@ -137,7 +150,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const Padding(padding: EdgeInsets.only(top: 20)),
                     SizedBox(
-
                       height: 200,
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: ListView.builder(
@@ -167,11 +179,12 @@ class _HomePageState extends State<HomePage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Image(fit: BoxFit.cover,
+                                      Image(
+                                        fit: BoxFit.cover,
                                         image: AssetImage(
-                                            listFood[index].image.toString(),),
+                                          listFood[index].image.toString(),
+                                        ),
                                         height: 100,
-
                                       ),
                                       Text(
                                         listFood[index].name.toString(),
@@ -180,7 +193,8 @@ class _HomePageState extends State<HomePage> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      const Padding(padding: EdgeInsets.only(top: 10)),
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 10)),
                                       LikeButton(
                                         size: 30,
                                         circleColor: const CircleColor(
@@ -193,7 +207,9 @@ class _HomePageState extends State<HomePage> {
                                         likeBuilder: (bool isLiked) {
                                           return Icon(
                                             Icons.favorite,
-                                            color: isLiked ? Colors.red : Colors.grey,
+                                            color: isLiked
+                                                ? Colors.red
+                                                : Colors.grey,
                                             size: 30,
                                           );
                                         },
@@ -215,5 +231,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-

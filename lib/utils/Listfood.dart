@@ -1,10 +1,14 @@
 class Recipe {
   final String name;
   final String image;
+  final String? userImage;
+  final String? userName;
   final List<String> ingredients;
   final List<String> steps;
 
   const Recipe({
+    this.userImage,
+    this.userName,
     required this.name,
     required this.image,
     required this.ingredients,
@@ -17,6 +21,8 @@ class RecipeList {
     Recipe(
       name: 'Pizza',
       image: 'assets/images/pizza-created-with-generative-ai-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '500g de harina',
         '300ml de agua',
@@ -39,6 +45,8 @@ class RecipeList {
     Recipe(
       name: 'Hamburguesa',
       image: 'assets/images/cute-cartoon-burger-icon-free-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '400g de carne molida',
         '4 panes para hamburguesa',
@@ -61,6 +69,8 @@ class RecipeList {
     Recipe(
       name: 'Sushi',
       image: 'assets/images/sushi-with-ai-generated-free-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '300g de arroz para sushi',
         'Nori (algas secas)',
@@ -82,6 +92,8 @@ class RecipeList {
     Recipe(
       name: 'Tacos',
       image: 'assets/images/tacos-with-ai-generated-free-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '300g de carne de res',
         'Tortillas de maíz',
@@ -100,7 +112,10 @@ class RecipeList {
     ),
     Recipe(
       name: 'Pasta Carbonara',
-      image: 'assets/images/spaghetti-carbonara-isolated-on-transparent-background-file-cut-out-ai-generated-png.png',
+      image:
+          'assets/images/spaghetti-carbonara-isolated-on-transparent-background-file-cut-out-ai-generated-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '200g de espaguetis',
         '100g de panceta',
@@ -120,6 +135,8 @@ class RecipeList {
     Recipe(
       name: 'Paella',
       image: 'assets/images/spanish-paella-isolated-ai-generated-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '400g de arroz',
         '200g de pollo',
@@ -141,7 +158,10 @@ class RecipeList {
     ),
     Recipe(
       name: 'Ensalada César',
-      image: 'assets/images/caesar-salad-with-chicken-on-a-white-plate-illustration-generative-ai-png.png',
+      image:
+          'assets/images/caesar-salad-with-chicken-on-a-white-plate-illustration-generative-ai-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         'Lechuga romana',
         '100g de pechuga de pollo',
@@ -161,7 +181,10 @@ class RecipeList {
     ),
     Recipe(
       name: 'Ramen',
-      image: 'assets/images/asian-noodle-soup-ramen-with-chicken-vegetables-and-egg-in-black-bowl-isolated-on-white-transparent-background-ai-generate-png.png',
+      image:
+          'assets/images/asian-noodle-soup-ramen-with-chicken-vegetables-and-egg-in-black-bowl-isolated-on-white-transparent-background-ai-generate-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '200g de fideos de ramen',
         '500ml de caldo de pollo',
@@ -183,6 +206,8 @@ class RecipeList {
     Recipe(
       name: 'Empanadas',
       image: 'assets/images/empanada-pastry-stuffed-food-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '500g de masa para empanadas',
         '300g de carne picada',
@@ -204,6 +229,8 @@ class RecipeList {
     Recipe(
       name: 'Brownie',
       image: 'assets/images/brownie-with-ai-generated-free-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '200g de chocolate negro',
         '150g de mantequilla',
@@ -224,6 +251,8 @@ class RecipeList {
     Recipe(
       name: 'Panqueques',
       image: 'assets/images/pancake-dessert-bakery-ai-generate-png.png',
+      userImage: 'assets/user.webp',
+      userName: 'John Doe',
       ingredients: [
         '200g de harina',
         '2 huevos',
@@ -244,4 +273,3 @@ class RecipeList {
     ),
   ];
 }
-
