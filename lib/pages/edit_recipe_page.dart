@@ -84,90 +84,100 @@ class _EditRecipePageState extends State<EditRecipePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Editar Receta'),
+        backgroundColor: Colors.blue, // Evitar valores nulos
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Campo para el nombre de la receta
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Nombre de la receta',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese el nombre de la receta';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-
-                // Campo para la descripción
-                TextFormField(
-                  controller: _descriptionController,
-                  decoration: const InputDecoration(
-                    labelText: 'Descripción',
-                    border: OutlineInputBorder(),
-                  ),
-                  maxLines: 3,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese una descripción';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-
-                // Selector de categoría
-                BsCategory(cModel: _combinedModel),
-                const SizedBox(height: 16),
-
-                // Selector de fecha personalizado
-                DatePicker(cModel: _combinedModel),
-                const SizedBox(height: 16),
-
-                // Campo para agregar o mostrar la imagen
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _image == null
-                        ? widget.recipe.imagePath.isNotEmpty
-                            ? Image.file(
-                                File(widget.recipe
-                                    .imagePath), // Mostrar la imagen existente
-                                width: 100,
-                                height: 100,
-                              )
-                            : const Text('No se ha seleccionado imagen')
-                        : Image.file(
-                            File(_image!
-                                .path), // Mostrar la nueva imagen seleccionada
-                            width: 100,
-                            height: 100,
-                          ),
-                    const SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: _pickImage,
-                      child: const Text('Cambiar imagen'),
+        child: SingleChildScrollView(
+          // Añadir un SingleChildScrollView aquí
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Campo para el nombre de la receta
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Nombre de la receta',
+                      border: OutlineInputBorder(),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 16),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingrese el nombre de la receta';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
 
-                // Botón para guardar cambios
-                ElevatedButton(
-                  onPressed: _updateRecipe,
-                  child: const Text('Guardar cambios'),
-                ),
-              ],
+                  // Campo para la descripción
+                  TextFormField(
+                    controller: _descriptionController,
+                    decoration: const InputDecoration(
+                      labelText: 'Descripción',
+                      border: OutlineInputBorder(),
+                    ),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingrese una descripción';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Selector de categoría
+                  BsCategory(cModel: _combinedModel),
+                  const SizedBox(height: 16),
+
+                  // Selector de fecha personalizado
+                  DatePicker(cModel: _combinedModel),
+                  const SizedBox(height: 16),
+
+                  // Campo para agregar o mostrar la imagen
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _image == null
+                          ? widget.recipe.imagePath.isNotEmpty
+                              ? Image.file(
+                                  File(widget.recipe
+                                      .imagePath), // Mostrar la imagen existente
+                                  width: 100,
+                                  height: 100,
+                                )
+                              : const Text('No se ha seleccionado imagen')
+                          : Image.file(
+                              File(_image!
+                                  .path), // Mostrar la nueva imagen seleccionada
+                              width: 100,
+                              height: 100,
+                            ),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: _pickImage,
+                        style: ElevatedButton.styleFrom(
+                            //backgroundColor:   Colors.blue, // Color de fondo del botón
+                            ),
+                        child: const Text('Cambiar imagen'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Botón para guardar cambios
+                  ElevatedButton(
+                    onPressed: _updateRecipe,
+                    style: ElevatedButton.styleFrom(
+                        //backgroundColor: Colors.green, // Color de fondo del botón
+                        ),
+                    child: const Text('Guardar cambios'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
