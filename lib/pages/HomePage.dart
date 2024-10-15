@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:recipes/models/recipe_model.dart';
 import 'package:recipes/pages/account_page.dart';
+import 'package:recipes/providers/recipe_db.dart';
 
 import '../utils/Listfood.dart';
 import 'DetailPage.dart';
@@ -13,7 +15,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final listFood = RecipeList().listFood;
+  List<Recipe> listFood = RecipeList().listFood;
+
+  @override
+  void initState() {
+    super.initState();
+    loadRecipes();
+  }
+
+  Future<void> loadRecipes() async {
+    List<RecipeModel> recipes = await RecipeDatabase.db.getRecipes();
+    if (recipes.isEmpty) {
+      print('Recipes se mantiene'); // Usar datos de ejemplo si no hay recetas
+    } else {
+      setState(() {
+        listFood = recipes
+            .map((recipe) => Recipe.fromRecipeModel(recipe))
+            .toList(); // Actualizar el estado con las recetas
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

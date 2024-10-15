@@ -1,3 +1,5 @@
+import 'package:recipes/models/recipe_model.dart';
+
 class Recipe {
   final String name;
   final String image;
@@ -14,6 +16,33 @@ class Recipe {
     required this.ingredients,
     required this.steps,
   });
+
+  factory Recipe.fromRecipeModel(RecipeModel model) {
+    return Recipe(
+        name: model.name,
+        image: model.imagePath.isEmpty
+            ? 'assets/images/food.jpeg'
+            : model.imagePath,
+        ingredients: [
+          '500g de harina',
+          '300ml de agua',
+          '10g de sal',
+          '20g de levadura fresca',
+          '200g de salsa de tomate',
+          '200g de mozzarella',
+          'Aceite de oliva',
+          'Ingredientes al gusto (jamón, champiñones, aceitunas, etc.)',
+        ], // Rellenar con datos o dejar vacío según sea necesario
+        steps: [
+          'Mezclar la harina, la sal y la levadura en un bol grande.',
+          'Añadir el agua y el aceite, y amasar hasta obtener una masa homogénea.',
+          'Dejar reposar la masa durante 1 hora.',
+          'Extender la masa y agregar la salsa de tomate.',
+          'Añadir la mozzarella y los ingredientes al gusto.',
+          'Hornear a 220°C durante 15-20 minutos.',
+        ] // Rellenar con datos o dejar vacío según sea necesario
+        );
+  }
 }
 
 class RecipeList {

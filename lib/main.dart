@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [Locale('es', 'CO')],
       initialRoute: '/',
       routes: {
-        '/': (context) => FeedPage(),
+        '/': (context) => const FeedPage(),
         '/recipeDetail': (context) => RecipeDetailPage(),
       },
     );

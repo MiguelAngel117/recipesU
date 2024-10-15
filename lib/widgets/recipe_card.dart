@@ -5,14 +5,18 @@ class RecipeCard extends StatelessWidget {
   final String title;
   final String author;
 
-  RecipeCard({required this.image, required this.title, required this.author});
+  const RecipeCard(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.author});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
           children: [
             ClipRRect(
@@ -24,26 +28,27 @@ class RecipeCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Row(
                   children: [
-                    Icon(Icons.person, size: 16),
-                    SizedBox(width: 5),
+                    const Icon(Icons.person, size: 16),
+                    const SizedBox(width: 5),
                     Text(author),
                   ],
                 ),
               ],
             ),
-            Spacer(),
-            Icon(Icons.favorite, color: Colors.red),
+            const Spacer(),
+            const Icon(Icons.favorite, color: Colors.red),
           ],
         ),
       ),

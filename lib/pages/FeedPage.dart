@@ -18,17 +18,17 @@ class FeedPage extends StatefulWidget {
 class _HomePageState extends State<FeedPage> {
   int index = 0;
   final screens = [
-    HomePage(),
+    const HomePage(),
     FavoriteRecipesPage(),
     ListPage(),
-    SettingPage()
+    const SettingPage()
   ];
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     return Scaffold(
       body: Stack(
         children: [
@@ -37,7 +37,8 @@ class _HomePageState extends State<FeedPage> {
             bottomNavigationBar: Container(
               color: Colors.black,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
                 child: GNav(
                   onTabChange: (int index) {
                     setState(() {
@@ -77,7 +78,8 @@ class _HomePageState extends State<FeedPage> {
           // Posicionar el botón flotante centrado sobre el bottomNavigationBar
           Positioned(
             bottom: screenHeight * 0.07, // Ajusta la distancia desde abajo
-            left: (screenWidth / 2) - 30, // Centrado, ajusta según el tamaño del FAB
+            left: (screenWidth / 2) -
+                30, // Centrado, ajusta según el tamaño del FAB
             child: const CustomFAB(),
           ),
         ],

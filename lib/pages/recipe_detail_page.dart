@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RecipeDetailPage extends StatelessWidget {
+  const RecipeDetailPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final recipe =
@@ -8,18 +10,17 @@ class RecipeDetailPage extends StatelessWidget {
 
     if (recipe == null) {
       return Scaffold(
-        appBar: AppBar(title: Text("Recipe not found")),
-        body: Center(child: Text("No recipe data available")),
+        appBar: AppBar(title: const Text("Recipe not found")),
+        body: const Center(child: Text("No recipe data available")),
       );
     }
 
     return DefaultTabController(
-      length: 2, 
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-              recipe['title'] ?? 'Recipe'), 
-          bottom: TabBar(
+          title: Text(recipe['title'] ?? 'Recipe'),
+          bottom: const TabBar(
             tabs: [
               Tab(text: "Ingredients"),
               Tab(text: "Instructions"),
@@ -30,8 +31,8 @@ class RecipeDetailPage extends StatelessWidget {
           children: [
             IngredientsTab(recipe: recipe),
             InstructionsTab(
-                instructions: recipe['instructions'] ??
-                    'No instructions available'), 
+                instructions:
+                    recipe['instructions'] ?? 'No instructions available'),
           ],
         ),
       ),
@@ -42,7 +43,7 @@ class RecipeDetailPage extends StatelessWidget {
 class IngredientsTab extends StatelessWidget {
   final Map<String, dynamic> recipe;
 
-  IngredientsTab({required this.recipe});
+  const IngredientsTab({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class IngredientsTab extends StatelessWidget {
           // Validamos que la imagen no sea null
           recipe['image'] != null
               ? Image.asset(recipe['image'])
-              : Placeholder(
+              : const Placeholder(
                   fallbackHeight: 200, fallbackWidth: double.infinity),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -61,44 +62,40 @@ class IngredientsTab extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  recipe['title'] ??
-                      'Recipe Title', 
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  recipe['title'] ?? 'Recipe Title',
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   children: [
-                    Icon(Icons.access_time, size: 16),
-                    SizedBox(width: 5),
-                    Text(
-                        '${recipe['time'] ?? 'Unknown'} min'), 
+                    const Icon(Icons.access_time, size: 16),
+                    const SizedBox(width: 5),
+                    Text('${recipe['time'] ?? 'Unknown'} min'),
                   ],
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Ingredients',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 if (recipe['ingredients'] != null)
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: recipe['ingredients'].length,
                     itemBuilder: (context, index) {
                       final ingredient = recipe['ingredients'][index];
                       if (ingredient['name'] is String &&
                           ingredient['quantity'] is String) {
                         return ListTile(
-                          leading: Icon(Icons
-                              .check_box_outline_blank), 
-                          title: Text(ingredient[
-                              'name']), 
-                          trailing: Text(ingredient[
-                              'quantity']), 
+                          leading: const Icon(Icons.check_box_outline_blank),
+                          title: Text(ingredient['name']),
+                          trailing: Text(ingredient['quantity']),
                         );
                       } else {
-                        return ListTile(
+                        return const ListTile(
                           leading: Icon(Icons.error_outline),
                           title: Text('Invalid ingredient data'),
                         );
@@ -106,8 +103,7 @@ class IngredientsTab extends StatelessWidget {
                     },
                   )
                 else
-                  Text(
-                      "No ingredients available"), 
+                  const Text("No ingredients available"),
               ],
             ),
           ),
@@ -120,7 +116,7 @@ class IngredientsTab extends StatelessWidget {
 class InstructionsTab extends StatelessWidget {
   final String instructions;
 
-  InstructionsTab({required this.instructions});
+  const InstructionsTab({super.key, required this.instructions});
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +124,7 @@ class InstructionsTab extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Text(
         instructions,
-        style: TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16),
       ),
     );
   }

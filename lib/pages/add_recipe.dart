@@ -2,6 +2,8 @@ import 'dart:io'; // Para manejar archivos de imagen
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; // Para agregar imágenes
 import 'package:recipes/models/combined_model.dart'; // Importa tu modelo para el DatePicker
+import 'package:recipes/models/recipe_model.dart';
+import 'package:recipes/providers/recipe_db.dart';
 import 'package:recipes/widgets/add_expenses/bs_category.dart';
 import 'package:recipes/widgets/date_picker.dart'; // Importa tu clase DatePicker
 
@@ -21,8 +23,8 @@ class _AddRecipeState extends State<AddRecipe> {
       CombinedModel(day: 0); // Inicializar modelo para el DatePicker
 
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
         _image = image;
@@ -30,12 +32,50 @@ class _AddRecipeState extends State<AddRecipe> {
     }
   }
 
-  void _saveRecipe() {
+  void _saveRecipe2() {
     if (_formKey.currentState!.validate()) {
       // Aquí iría la lógica para guardar la receta
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Receta guardada')),
       );
+    }
+  }
+
+  void _saveRecipe() async {
+    if (_formKey.currentState!.validate()) {
+      // Crear una instancia de RecipeModel
+      final recipe = RecipeModel(
+        name: _nameController.text,
+        description: _descriptionController.text,
+        imagePath: _image?.path ?? '', // Ruta de la imagen
+        category:
+            _combinedModel.category, // Asumiendo que tienes un campo 'category'
+        year: _combinedModel.year,
+        month: _combinedModel.month,
+        day: _combinedModel.day,
+      );
+
+      // Guardar en la base de datos
+      final result = await RecipeDatabase.db.insertRecipe(recipe);
+      print(result);
+      // Mostrar un mensaje de éxito
+      if (result > 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Receta guardada')),
+        );
+
+        // Limpiar campos si es necesario
+        _nameController.clear();
+        _descriptionController.clear();
+        setState(() {
+          _image = null; // Restablecer la imagen
+        });
+      } else {
+        print('Error al guardar la receta');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error al guardar la receta')),
+        );
+      }
     }
   }
 

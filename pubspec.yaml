@@ -43,6 +43,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   sqflite: ^2.2.0+1  
+  sqflite_common_ffi: ^2.0.0
   path: ^1.8.0 
   provider: ^6.0.5
   flutter_material_color_picker: ^1.0.0
