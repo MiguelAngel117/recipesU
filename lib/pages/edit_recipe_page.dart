@@ -88,7 +88,6 @@ class _EditRecipePageState extends State<EditRecipePage> {
       ),
       body: Center(
         child: SingleChildScrollView(
-          // Añadir un SingleChildScrollView aquí
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
@@ -96,7 +95,6 @@ class _EditRecipePageState extends State<EditRecipePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Campo para el nombre de la receta
                   TextFormField(
                     controller: _nameController,
                     decoration: const InputDecoration(
@@ -111,8 +109,6 @@ class _EditRecipePageState extends State<EditRecipePage> {
                     },
                   ),
                   const SizedBox(height: 16),
-
-                  // Campo para la descripción
                   TextFormField(
                     controller: _descriptionController,
                     decoration: const InputDecoration(
@@ -128,52 +124,44 @@ class _EditRecipePageState extends State<EditRecipePage> {
                     },
                   ),
                   const SizedBox(height: 16),
-
-                  // Selector de categoría
                   BsCategory(cModel: _combinedModel),
                   const SizedBox(height: 16),
-
-                  // Selector de fecha personalizado
                   DatePicker(cModel: _combinedModel),
                   const SizedBox(height: 16),
-
-                  // Campo para agregar o mostrar la imagen
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _image == null
-                          ? widget.recipe.imagePath.isNotEmpty
+                  Card(
+                    margin: const EdgeInsets.all(10),
+                    child: ListTile(
+                      leading: _image == null
+                          ? widget.recipe.imagePath.isNotEmpty &&
+                                  File(widget.recipe.imagePath).existsSync()
                               ? Image.file(
-                                  File(widget.recipe
-                                      .imagePath), // Mostrar la imagen existente
+                                  File(widget.recipe.imagePath),
                                   width: 100,
                                   height: 100,
                                 )
-                              : const Text('No se ha seleccionado imagen')
+                              : const Icon(Icons.image, size: 50)
                           : Image.file(
-                              File(_image!
-                                  .path), // Mostrar la nueva imagen seleccionada
+                              File(_image!.path),
                               width: 100,
                               height: 100,
                             ),
-                      const SizedBox(width: 10),
-                      ElevatedButton(
+                      title: Text(widget.recipe.name),
+                      subtitle: Text(widget.recipe.description),
+                      trailing: ElevatedButton(
                         onPressed: _pickImage,
                         style: ElevatedButton.styleFrom(
-                            //backgroundColor:   Colors.blue, // Color de fondo del botón
-                            ),
+                          backgroundColor: Colors.blue,
+                        ),
                         child: const Text('Cambiar imagen'),
                       ),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 16),
-
-                  // Botón para guardar cambios
                   ElevatedButton(
                     onPressed: _updateRecipe,
                     style: ElevatedButton.styleFrom(
-                        //backgroundColor: Colors.green, // Color de fondo del botón
-                        ),
+                      backgroundColor: Colors.green,
+                    ),
                     child: const Text('Guardar cambios'),
                   ),
                 ],

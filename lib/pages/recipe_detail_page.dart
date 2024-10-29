@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class RecipeDetailPage extends StatelessWidget {
@@ -51,9 +52,8 @@ class IngredientsTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Validamos que la imagen no sea null
-          recipe['image'] != null
-              ? Image.asset(recipe['image'])
+          recipe['image'] != null && File(recipe['image']).existsSync()
+              ? Image.file(File(recipe['image']))
               : const Placeholder(
                   fallbackHeight: 200, fallbackWidth: double.infinity),
           Padding(
