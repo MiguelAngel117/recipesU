@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ class DetailPage extends StatefulWidget {
 
   const DetailPage({super.key, required this.food});
 
-
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
@@ -19,9 +19,8 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body:
-      SingleChildScrollView(
-        child:SizedBox(
+      body: SingleChildScrollView(
+        child: SizedBox(
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -30,14 +29,18 @@ class _DetailPageState extends State<DetailPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  IconButton(onPressed: (){
-                    Navigator.pop(context);
-                  }, icon: const Icon(Icons.arrow_back_ios_new),color: Colors.white,),
-                  const SizedBox(width: 200,),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new),
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 200),
                   LikeButton(
                     size: 30,
                     circleColor:
-                    const CircleColor(start: Colors.red, end: Colors.red),
+                        const CircleColor(start: Colors.red, end: Colors.red),
                     bubblesColor: const BubblesColor(
                       dotPrimaryColor: Colors.red,
                       dotSecondaryColor: Colors.red,
@@ -50,65 +53,108 @@ class _DetailPageState extends State<DetailPage> {
                       );
                     },
                   ),
-
                 ],
               ),
-              Image.asset(widget.food.image),
+              // Verifica si el archivo de imagen existe
+              widget.food.image != null && File(widget.food.image).existsSync()
+                  ? Image.file(File(widget.food.image))
+                  : const Placeholder(
+                      fallbackHeight: 200, fallbackWidth: double.infinity),
               Container(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[800],
-                        borderRadius: BorderRadius.circular(20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[800],
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                widget.food.name,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${widget.food.ingredients.length} Ingredientes",
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Tiempo de preparación: ",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    Text(
+                                      "${Random().nextInt(120)} minutos",
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(widget.food.name, style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),),
-                            Text("${widget.food.ingredients.length} Ingredientes", style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.normal),),
-                            Padding(padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text("Tiempo de preparación: ", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.normal),),
-                                Text("${Random().nextInt(120)} minutos", style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
-                              ],
-                            ) ,
+                            const Text(
+                              "Ingredientes",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ],
-
-                        ),
-                        )
-                      ),
-                    ),
-                    Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child:  Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text("Ingredientes", style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),),
                             const Padding(padding: EdgeInsets.only(top: 15)),
                             SingleChildScrollView(
                               child: Column(
-                                children: widget.food.ingredients.map((ingredient) {
+                                children:
+                                    widget.food.ingredients.map((ingredient) {
                                   return Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
-                                        const Icon(Icons.arrow_right, color: Colors.white,),
-                                        const SizedBox(width: 8), // Un poco de espacio entre el icono y el texto
+                                        const Icon(
+                                          Icons.arrow_right,
+                                          color: Colors.white,
+                                        ),
+                                        const SizedBox(width: 8),
                                         Expanded(
                                           child: Text(
                                             ingredient,
@@ -126,29 +172,41 @@ class _DetailPageState extends State<DetailPage> {
                                 }).toList(),
                               ),
                             ),
-
-
                           ],
-
                         ),
-                        )
                       ),
-                    const Text("Preparación", style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),),
-                    Padding(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child:  Padding(
+                    ),
+                    const Text(
+                      "Preparación",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            for(int i = 0; i < widget.food.steps.length; i++)
+                            for (int i = 0; i < widget.food.steps.length; i++)
                               Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text("${i+1}. ", style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.normal),),
-                                    const SizedBox(width: 8), // Un poco de espacio entre el icono y el texto
+                                    Text(
+                                      "${i + 1}. ",
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
                                         widget.food.steps[i],
@@ -163,17 +221,17 @@ class _DetailPageState extends State<DetailPage> {
                                   ],
                                 ),
                               ),
-                            ],
+                          ],
                         ),
-                        )
                       ),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
-        )
-      )
+        ),
+      ),
     );
   }
 }
