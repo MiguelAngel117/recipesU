@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:recipes/utils/Listfood.dart';
@@ -14,7 +13,21 @@ class DetailPage extends StatefulWidget {
   State<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,42 +135,75 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text(
-                              "Ingredientes",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold),
+                    // Pestañas para ingredientes y preparación
+                    TabBar(
+                      controller: _tabController,
+                      tabs: const [
+                        Tab(text: 'Ingredientes'),
+                        Tab(text: 'Preparación'),
+                      ],
+                      labelColor: Colors.white,
+                      unselectedLabelColor: Colors.grey,
+                    ),
+                    SizedBox(
+                      height: 200, // Altura de la pestaña
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          // Contenido de la pestaña de ingredientes
+                          SingleChildScrollView(
+                            child: Column(
+                              children: widget.food.ingredients.map((ingredient) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Icon(
+                                        Icons.arrow_right,
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          ingredient,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                            const Padding(padding: EdgeInsets.only(top: 15)),
-                            SingleChildScrollView(
-                              child: Column(
-                                children:
-                                    widget.food.ingredients.map((ingredient) {
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                          ),
+                          // Contenido de la pestaña de preparación
+                          SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                for (int i = 0; i < widget.food.steps.length; i++)
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const Icon(
-                                          Icons.arrow_right,
-                                          color: Colors.white,
+                                        Text(
+                                          "${i + 1}. ",
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal),
                                         ),
                                         const SizedBox(width: 8),
                                         Expanded(
                                           child: Text(
-                                            ingredient,
+                                            widget.food.steps[i],
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 15,
@@ -168,61 +214,11 @@ class _DetailPageState extends State<DetailPage> {
                                         ),
                                       ],
                                     ),
-                                  );
-                                }).toList(),
-                              ),
+                                  ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Text(
-                      "Preparación",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            for (int i = 0; i < widget.food.steps.length; i++)
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${i + 1}. ",
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        widget.food.steps[i],
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
