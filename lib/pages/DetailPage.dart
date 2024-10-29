@@ -146,7 +146,7 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                       unselectedLabelColor: Colors.grey,
                     ),
                     SizedBox(
-                      height: 200, // Altura de la pestaña
+                      height: 400, // Altura de la pestaña
                       child: TabBarView(
                         controller: _tabController,
                         children: [
