@@ -3,6 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:recipes/pages/ListPage.dart';
 import 'package:recipes/pages/PlanPage.dart';
 import 'package:recipes/pages/favorite_recipes_page.dart';
+import 'package:recipes/pages/maps/map_page.dart';
 import 'package:recipes/widgets/custom_fab.dart';
 
 import 'HomePage.dart';
@@ -20,7 +21,7 @@ class _HomePageState extends State<FeedPage> {
   final screens = [
     const HomePage(),
     FavoriteRecipesPage(),
-    ListPage(),
+    MapPage(),
     const SettingPage()
   ];
 
@@ -56,7 +57,7 @@ class _HomePageState extends State<FeedPage> {
                     ),
                     GButton(
                       icon: Icons.calendar_today_rounded,
-                      text: 'Plan',
+                      text: 'Mapa',
                     ),
                     GButton(
                       icon: Icons.settings,
