@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:recipes/models/recipe_model.dart';
+import 'package:recipes/utils/Listfood.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -42,6 +43,37 @@ class RecipeDatabase {
         )
       ''');
     });
+  }
+
+  Future<void> initializeDefaultRecipes() async {
+    final db = await database;
+
+    // Verificar si la base de datos está vacía
+    final result = await db.query('Recipe');
+    if (result.isEmpty) {
+      final defaultRecipes = RecipeList().listFood;
+
+      // Insertar recetas predeterminadas
+      for (var recipe in defaultRecipes) {
+        await db.insert(
+          'Recipe', // Asegúrate de usar el nombre correcto de la tabla
+          RecipeModel(
+            name: recipe.name,
+            imagePath: recipe.image,
+            description: '',
+            category: '',
+            year: 0,
+            month: 0,
+            day: 0,
+          ).toJson(),
+        );
+      }
+      print('Recetas predeterminadas insertadas en la base de datos.');
+    } else {
+      print('No paso por la base');
+    }
+    final recetas = await db.query('Recipe');
+    print('Recetas después de inicializar: $recetas');
   }
 
   Future<int> insertRecipe(RecipeModel recipe) async {

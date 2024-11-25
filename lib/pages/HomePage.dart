@@ -25,15 +25,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadRecipes() async {
-    List<RecipeModel> recipes = await RecipeDatabase.db.getRecipes();
-    if (recipes.isEmpty) {
-      print('Recipes se mantiene'); // Usar datos de ejemplo si no hay recetas
-    } else {
+    try {
+      List<RecipeModel> recipes = await RecipeDatabase.db.getRecipes();
+      if (recipes.isEmpty) {
+        print('Base de datos vacía. Cargando recetas predeterminadas...');
+        await RecipeDatabase.db.initializeDefaultRecipes();
+
+        // Volver a obtener las recetas después de inicializarlas
+        recipes = await RecipeDatabase.db.getRecipes();
+      }
+
+      print('Recetas cargadas desde la base de datos: $recipes');
       setState(() {
-        listFood = recipes
-            .map((recipe) => Recipe.fromRecipeModel(recipe))
-            .toList(); // Actualizar el estado con las recetas
+        listFood =
+            recipes.map((recipe) => Recipe.fromRecipeModel(recipe)).toList();
       });
+    } catch (e) {
+      print('Error cargando recetas: $e');
     }
   }
 
