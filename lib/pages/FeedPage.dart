@@ -4,10 +4,10 @@ import 'package:recipes/pages/ListPage.dart';
 import 'package:recipes/pages/PlanPage.dart';
 import 'package:recipes/pages/favorite_recipes_page.dart';
 import 'package:recipes/pages/maps/map_page.dart';
+import 'package:recipes/pages/profile_page.dart';
 import 'package:recipes/widgets/custom_fab.dart';
 
 import 'HomePage.dart';
-import 'SettingPage.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
@@ -21,8 +21,8 @@ class _HomePageState extends State<FeedPage> {
   final screens = [
     const HomePage(),
     FavoriteRecipesPage(),
-    MapPage(),
-    const SettingPage()
+    const MapPage(),
+    const ProfilePage()
   ];
 
   @override
@@ -56,12 +56,12 @@ class _HomePageState extends State<FeedPage> {
                       text: 'Favoritos',
                     ),
                     GButton(
-                      icon: Icons.calendar_today_rounded,
+                      icon: Icons.map,
                       text: 'Mapa',
                     ),
                     GButton(
-                      icon: Icons.settings,
-                      text: 'Ajustes',
+                      icon: Icons.person,
+                      text: 'Perfil',
                     ),
                   ],
                   gap: 8,
