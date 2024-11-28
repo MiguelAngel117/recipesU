@@ -1,6 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:logger/logger.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:recipes/models/recipe_model.dart';
 import 'package:recipes/utils/Listfood.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,7 +13,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 class RecipeDatabase {
   static Database? _database;
   static final RecipeDatabase db = RecipeDatabase._();
-
+  Logger logger = Logger();
   RecipeDatabase._();
 
   Future<Database> get database async {
@@ -45,35 +49,87 @@ class RecipeDatabase {
     });
   }
 
-  Future<void> initializeDefaultRecipes() async {
+  Future<String> _getImageDirectory() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final imageDirectory = Directory('${directory.path}/recipe_images');
+    if (!await imageDirectory.exists()) {
+      await imageDirectory.create();
+    }
+    return imageDirectory.path;
+  }
+
+  Future<String> _saveImageLocally(File imageFile) async {
+    // Obtener el directorio local para las imágenes
+    final directory = await getApplicationDocumentsDirectory();
+    final imageDirectory = Directory('${directory.path}/recipe_images');
+
+    // Verifica si el directorio existe, si no lo crea
+    if (!await imageDirectory.exists()) {
+      await imageDirectory.create();
+    }
+
+    // Genera un nombre único para la imagen
+    final fileName = DateTime.now().millisecondsSinceEpoch.toString() + '.png';
+    final localImagePath = '${imageDirectory.path}/$fileName';
+
+    // Lee el archivo de los assets como bytes
+    final byteData = await rootBundle.load(imageFile.path);
+    final buffer = byteData.buffer.asUint8List();
+
+    // Crea un archivo en el almacenamiento local y escribe los bytes
+    final localFile = File(localImagePath);
+    await localFile.writeAsBytes(buffer);
+
+    return localImagePath;
+  }
+
+  Future<void> insertDefaultRecipe(RecipeModel recipe) async {
     final db = await database;
 
-    // Verificar si la base de datos está vacía
-    final result = await db.query('Recipe');
-    if (result.isEmpty) {
-      final defaultRecipes = RecipeList().listFood;
+    // Guardar la imagen de la receta en el sistema de archivos
+    File imageFile = File(recipe.imagePath);
+    String imageName = await _saveImageLocally(imageFile);
+    debugPrint('$imageName Path quemado');
+    // Guardar solo el nombre del archivo de la imagen en la base de datos
+    await db.insert('Recipe', {
+      'name': recipe.name,
+      'imagePath': imageName, // Almacena solo el nombre del archivo
+      'description': recipe.description,
+      'category': recipe.category,
+      'year': recipe.year,
+      'month': recipe.month,
+      'day': recipe.day,
+    });
+  }
 
-      // Insertar recetas predeterminadas
-      for (var recipe in defaultRecipes) {
-        await db.insert(
-          'Recipe', // Asegúrate de usar el nombre correcto de la tabla
-          RecipeModel(
-            name: recipe.name,
-            imagePath: recipe.image,
-            description: '',
-            category: '',
-            year: 0,
-            month: 0,
-            day: 0,
-          ).toJson(),
-        );
-      }
-      print('Recetas predeterminadas insertadas en la base de datos.');
-    } else {
-      print('No paso por la base');
+  Future<int> initializeDefaultRecipes() async {
+    final defaultRecipes = RecipeList().listFood;
+    int testNum = 0;
+    // Insertar recetas predeterminadas
+    for (var recipe in defaultRecipes) {
+      // Asegurémonos de que la imagen está en el dispositivo local
+      String imageName = await _saveImageLocally(File(recipe.image));
+      logger.d("con una imagen " + recipe.name);
+      // Guardar la receta en la base de datos, usando solo el nombre del archivo de la imagen
+      testNum = await insertRecipe(
+        // Asegúrate de usar el nombre correcto de la tabla
+        RecipeModel(
+          name: recipe.name,
+          imagePath: imageName, // Solo guardamos el nombre del archivo
+          description: '',
+          category: '',
+          year: 0,
+          month: 0,
+          day: 0,
+        ),
+      );
     }
-    final recetas = await db.query('Recipe');
-    print('Recetas después de inicializar: $recetas');
+
+    debugPrint('Recetas predeterminadas insertadas en la base de datos.');
+
+    debugPrint('Recetas después de inicializar: ');
+
+    return testNum;
   }
 
   Future<int> insertRecipe(RecipeModel recipe) async {

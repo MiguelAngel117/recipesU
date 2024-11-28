@@ -110,6 +110,7 @@ class _AddRecipeState extends State<AddRecipe> {
                   onImageSelected: (path) {
                     setState(() {
                       _imagePath = path; // Almacena la ruta de la imagen
+                      debugPrint('${_imagePath} Path info ');
                     });
                   },
                 ),
