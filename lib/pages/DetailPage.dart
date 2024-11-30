@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:recipes/providers/recipe_db.dart';
 import 'package:recipes/utils/Listfood.dart';
 
 class DetailPage extends StatefulWidget {
@@ -52,21 +53,35 @@ class _DetailPageState extends State<DetailPage>
                   ),
                   const SizedBox(width: 200),
                   LikeButton(
-                    size: 30,
-                    circleColor:
-                        const CircleColor(start: Colors.red, end: Colors.red),
-                    bubblesColor: const BubblesColor(
-                      dotPrimaryColor: Colors.red,
-                      dotSecondaryColor: Colors.red,
-                    ),
-                    likeBuilder: (bool isLiked) {
-                      return Icon(
-                        Icons.favorite,
-                        color: isLiked ? Colors.red : Colors.white,
-                        size: 30,
-                      );
-                    },
-                  ),
+                      size: 30,
+                      circleColor:
+                          const CircleColor(start: Colors.red, end: Colors.red),
+                      bubblesColor: const BubblesColor(
+                        dotPrimaryColor: Colors.red,
+                        dotSecondaryColor: Colors.red,
+                      ),
+                      likeBuilder: (bool isLiked) {
+                        return Icon(
+                          Icons.favorite,
+                          color: isLiked ? Colors.red : Colors.white,
+                          size: 30,
+                        );
+                      },
+                      onTap: (isLiked) async {
+                        // Aquí se cambia el estado de la receta
+                        setState(() {
+                          widget.food.liked =
+                              !isLiked; // Actualizamos el estado de "liked"
+                        });
+                        debugPrint(
+                            "Resultado de like ${widget.food.liked.toString()}");
+                        // Ahora se guarda la receta actualizada en la base de datos
+                        var result = await RecipeDatabase.db
+                            .updateRecipeLike(widget.food.toRecipeModel());
+                        debugPrint("Resultado de like $result");
+
+                        return !isLiked; // Retornamos el nuevo estado de like
+                      }),
                 ],
               ),
 

@@ -28,13 +28,13 @@ class _HomePageState extends State<HomePage> {
     List<RecipeModel> recipes = await RecipeDatabase.db.getRecipes();
     if (recipes.isEmpty) {
       debugPrint('Base de datos vacía. Cargando recetas predeterminadas...');
-      //debugPrint((await RecipeDatabase.db.initializeDefaultRecipes()) as String?);
+      await RecipeDatabase.db.initializeDefaultRecipes();
 
       // Volver a obtener las recetas después de inicializarlas
       recipes = await RecipeDatabase.db.getRecipes();
     }
 
-    debugPrint("Recetas $recipes");
+    debugPrint("Recetas $listFood");
 
     debugPrint('Recetas cargadas desde la base de datos: ');
     setState(() {
@@ -265,11 +265,28 @@ class _HomePageState extends State<HomePage> {
                                         likeBuilder: (bool isLiked) {
                                           return Icon(
                                             Icons.favorite,
-                                            color: isLiked
+                                            color: listFood[index].liked
                                                 ? Colors.red
                                                 : Colors.grey,
                                             size: 30,
                                           );
+                                        },
+                                        onTap: (isLiked) async {
+                                          // Aquí se cambia el estado de la receta
+                                          setState(() {
+                                            listFood[index].liked =
+                                                !isLiked; // Actualizamos el estado de "liked"
+                                          });
+                                          debugPrint(
+                                              "Resultado de like ${listFood[index].liked.toString()}");
+                                          // Ahora se guarda la receta actualizada en la base de datos
+                                          var result = await RecipeDatabase.db
+                                              .updateRecipeLike(listFood[index]
+                                                  .toRecipeModel());
+                                          debugPrint(
+                                              "Resultado de like $result");
+
+                                          return !isLiked; // Retornamos el nuevo estado de like
                                         },
                                       ),
                                     ],

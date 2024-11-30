@@ -45,7 +45,8 @@ class RecipeDatabase {
           month INTEGER,
           day INTEGER,
           ingredients TEXT NOT NULL, -- Almacenará JSON serializado
-          steps TEXT NOT NULL        -- Almacenará JSON serializado
+          steps TEXT NOT NULL,        -- Almacenará JSON serializado
+          liked INTEGER NOT NULL DEFAULT 0  -- Agregamos el campo "liked"
         )
       ''');
     });
@@ -167,5 +168,15 @@ class RecipeDatabase {
       where: 'id = ?',
       whereArgs: [id],
     ); // Devuelve el número de filas eliminadas
+  }
+
+  Future<int> updateRecipeLike(RecipeModel recipe) async {
+    final db = await database;
+    return await db.update(
+      'Recipe',
+      {'liked': recipe.liked ? 1 : 0}, // Establecemos el "like" como 1 o 0
+      where: 'name = ?',
+      whereArgs: [recipe.name],
+    );
   }
 }

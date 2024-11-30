@@ -1,18 +1,23 @@
 import 'package:recipes/models/recipe_model.dart';
 
 class Recipe {
+  final int? id;
   final String name;
   final String description;
   final String image;
   final List<String> ingredients;
   final List<String> steps;
+  bool
+      liked; // Nuevo campo 'liked' (booleano, por ejemplo, si la receta está "gustada" o no)
 
   Recipe({
+    this.id,
     required this.name,
     required this.description,
     required this.image,
     required this.ingredients,
     required this.steps,
+    this.liked = false, // Establecer valor predeterminado como 'false'
   });
 
   // Método para convertir un RecipeModel en Recipe
@@ -24,6 +29,8 @@ class Recipe {
       ingredients: model.ingredients
           .cast<String>(), // Asegúrate que sea una lista de strings
       steps: model.steps.cast<String>(),
+      liked: model.liked ??
+          false, // Si 'liked' es nulo, ponerlo como 'false' por defecto
     );
   }
 
@@ -39,6 +46,7 @@ class Recipe {
       year: 0,
       month: 0,
       day: 0,
+      liked: liked, // Pasar el valor de 'liked' al modelo
     );
   }
 }
@@ -67,6 +75,7 @@ class RecipeList {
         'Hornear a 220°C durante 15-20 minutos.',
       ],
       description: '',
+      liked: false, // Asegurarse de que "liked" está presente
     ),
     Recipe(
       name: 'Hamburguesa',
@@ -90,6 +99,7 @@ class RecipeList {
         'Servir con ketchup y mostaza al gusto.',
       ],
       description: '',
+      liked: false, // Asegurarse de que "liked" está presente
     ),
     Recipe(
       name: 'Sushi',
@@ -112,48 +122,49 @@ class RecipeList {
         'Servir con salsa de soja.',
       ],
       description: '',
+      liked: false,
     ),
     Recipe(
-      name: 'Tacos',
-      image: 'assets/images/tacos-with-ai-generated-free-png.png',
-      ingredients: [
-        '300g de carne de res',
-        'Tortillas de maíz',
-        'Cebolla',
-        'Cilantro',
-        'Limón',
-        'Salsa picante',
-      ],
-      steps: [
-        'Cocinar la carne de res en una sartén hasta que esté dorada.',
-        'Calentar las tortillas de maíz.',
-        'Rellenar las tortillas con la carne.',
-        'Añadir cebolla, cilantro y un poco de jugo de limón.',
-        'Servir con salsa picante al gusto.',
-      ],
-      description: '',
-    ),
+        name: 'Tacos',
+        image: 'assets/images/tacos-with-ai-generated-free-png.png',
+        ingredients: [
+          '300g de carne de res',
+          'Tortillas de maíz',
+          'Cebolla',
+          'Cilantro',
+          'Limón',
+          'Salsa picante',
+        ],
+        steps: [
+          'Cocinar la carne de res en una sartén hasta que esté dorada.',
+          'Calentar las tortillas de maíz.',
+          'Rellenar las tortillas con la carne.',
+          'Añadir cebolla, cilantro y un poco de jugo de limón.',
+          'Servir con salsa picante al gusto.',
+        ],
+        description: '',
+        liked: false),
     Recipe(
-      name: 'Pasta Carbonara',
-      image:
-          'assets/images/spaghetti-carbonara-isolated-on-transparent-background-file-cut-out-ai-generated-png.png',
-      ingredients: [
-        '200g de espaguetis',
-        '100g de panceta',
-        '2 yemas de huevo',
-        '50g de queso parmesano',
-        'Sal y pimienta',
-        'Aceite de oliva',
-      ],
-      steps: [
-        'Cocinar los espaguetis en agua con sal hasta que estén al dente.',
-        'Freír la panceta en una sartén con un poco de aceite de oliva.',
-        'Mezclar las yemas de huevo con el queso parmesano en un bol.',
-        'Añadir los espaguetis y la panceta a la mezcla de huevo y queso.',
-        'Mezclar bien y sazonar con sal y pimienta.',
-      ],
-      description: '',
-    ),
+        name: 'Pasta Carbonara',
+        image:
+            'assets/images/spaghetti-carbonara-isolated-on-transparent-background-file-cut-out-ai-generated-png.png',
+        ingredients: [
+          '200g de espaguetis',
+          '100g de panceta',
+          '2 yemas de huevo',
+          '50g de queso parmesano',
+          'Sal y pimienta',
+          'Aceite de oliva',
+        ],
+        steps: [
+          'Cocinar los espaguetis en agua con sal hasta que estén al dente.',
+          'Freír la panceta en una sartén con un poco de aceite de oliva.',
+          'Mezclar las yemas de huevo con el queso parmesano en un bol.',
+          'Añadir los espaguetis y la panceta a la mezcla de huevo y queso.',
+          'Mezclar bien y sazonar con sal y pimienta.',
+        ],
+        description: '',
+        liked: false),
     Recipe(
       name: 'Paella',
       image: 'assets/images/spanish-paella-isolated-ai-generated-png.png',
@@ -178,114 +189,114 @@ class RecipeList {
       description: '',
     ),
     Recipe(
-      name: 'Ensalada César',
-      image:
-          'assets/images/caesar-salad-with-chicken-on-a-white-plate-illustration-generative-ai-png.png',
-      ingredients: [
-        'Lechuga romana',
-        '100g de pechuga de pollo',
-        'Pan tostado (crutones)',
-        'Queso parmesano',
-        'Salsa César',
-        'Aceite de oliva',
-        'Sal y pimienta',
-      ],
-      steps: [
-        'Cortar la lechuga y colocarla en un bol grande.',
-        'Cocinar la pechuga de pollo a la parrilla y cortarla en tiras.',
-        'Añadir el pollo, los crutones y el queso parmesano a la lechuga.',
-        'Aliñar con salsa César y un poco de aceite de oliva.',
-        'Mezclar bien y sazonar con sal y pimienta.',
-      ],
-      description: '',
-    ),
+        name: 'Ensalada César',
+        image:
+            'assets/images/caesar-salad-with-chicken-on-a-white-plate-illustration-generative-ai-png.png',
+        ingredients: [
+          'Lechuga romana',
+          '100g de pechuga de pollo',
+          'Pan tostado (crutones)',
+          'Queso parmesano',
+          'Salsa César',
+          'Aceite de oliva',
+          'Sal y pimienta',
+        ],
+        steps: [
+          'Cortar la lechuga y colocarla en un bol grande.',
+          'Cocinar la pechuga de pollo a la parrilla y cortarla en tiras.',
+          'Añadir el pollo, los crutones y el queso parmesano a la lechuga.',
+          'Aliñar con salsa César y un poco de aceite de oliva.',
+          'Mezclar bien y sazonar con sal y pimienta.',
+        ],
+        description: '',
+        liked: false),
     Recipe(
-      name: 'Ramen',
-      image:
-          'assets/images/asian-noodle-soup-ramen-with-chicken-vegetables-and-egg-in-black-bowl-isolated-on-white-transparent-background-ai-generate-png.png',
-      ingredients: [
-        '200g de fideos de ramen',
-        '500ml de caldo de pollo',
-        '100g de cerdo chashu',
-        'Huevo cocido',
-        'Cebollino picado',
-        'Salsa de soja',
-        'Aceite de sésamo',
-      ],
-      steps: [
-        'Cocinar los fideos de ramen según las instrucciones del paquete.',
-        'Calentar el caldo de pollo en una olla grande.',
-        'Añadir el cerdo chashu y un poco de salsa de soja al caldo.',
-        'Servir los fideos en un bol y verter el caldo caliente por encima.',
-        'Añadir el huevo cocido y el cebollino picado.',
-        'Rociar con un poco de aceite de sésamo antes de servir.',
-      ],
-      description: '',
-    ),
+        name: 'Ramen',
+        image:
+            'assets/images/asian-noodle-soup-ramen-with-chicken-vegetables-and-egg-in-black-bowl-isolated-on-white-transparent-background-ai-generate-png.png',
+        ingredients: [
+          '200g de fideos de ramen',
+          '500ml de caldo de pollo',
+          '100g de cerdo chashu',
+          'Huevo cocido',
+          'Cebollino picado',
+          'Salsa de soja',
+          'Aceite de sésamo',
+        ],
+        steps: [
+          'Cocinar los fideos de ramen según las instrucciones del paquete.',
+          'Calentar el caldo de pollo en una olla grande.',
+          'Añadir el cerdo chashu y un poco de salsa de soja al caldo.',
+          'Servir los fideos en un bol y verter el caldo caliente por encima.',
+          'Añadir el huevo cocido y el cebollino picado.',
+          'Rociar con un poco de aceite de sésamo antes de servir.',
+        ],
+        description: '',
+        liked: false),
     Recipe(
-      name: 'Empanadas',
-      image: 'assets/images/empanada-pastry-stuffed-food-png.png',
-      ingredients: [
-        '500g de masa para empanadas',
-        '300g de carne picada',
-        '1 cebolla',
-        'Huevo duro',
-        'Aceitunas',
-        'Aceite',
-        'Sal y pimienta',
-      ],
-      steps: [
-        'Sofreír la cebolla picada en una sartén con aceite.',
-        'Añadir la carne picada y cocinar hasta que esté dorada.',
-        'Agregar las aceitunas y el huevo duro picado.',
-        'Rellenar la masa para empanadas con la mezcla de carne.',
-        'Cerrar las empanadas y sellarlas con un tenedor.',
-        'Hornear a 180°C durante 20-25 minutos o hasta que estén doradas.',
-      ],
-      description: '',
-    ),
+        name: 'Empanadas',
+        image: 'assets/images/empanada-pastry-stuffed-food-png.png',
+        ingredients: [
+          '500g de masa para empanadas',
+          '300g de carne picada',
+          '1 cebolla',
+          'Huevo duro',
+          'Aceitunas',
+          'Aceite',
+          'Sal y pimienta',
+        ],
+        steps: [
+          'Sofreír la cebolla picada en una sartén con aceite.',
+          'Añadir la carne picada y cocinar hasta que esté dorada.',
+          'Agregar las aceitunas y el huevo duro picado.',
+          'Rellenar la masa para empanadas con la mezcla de carne.',
+          'Cerrar las empanadas y sellarlas con un tenedor.',
+          'Hornear a 180°C durante 20-25 minutos o hasta que estén doradas.',
+        ],
+        description: '',
+        liked: false),
     Recipe(
-      name: 'Brownie',
-      image: 'assets/images/brownie-with-ai-generated-free-png.png',
-      ingredients: [
-        '200g de chocolate negro',
-        '150g de mantequilla',
-        '200g de azúcar',
-        '3 huevos',
-        '100g de harina',
-        'Nueces (opcional)',
-      ],
-      steps: [
-        'Derretir el chocolate y la mantequilla a baño maría.',
-        'Añadir el azúcar y mezclar bien.',
-        'Incorporar los huevos uno a uno, batiendo después de cada adición.',
-        'Agregar la harina tamizada y mezclar hasta obtener una masa homogénea.',
-        'Añadir las nueces si se desea.',
-        'Verter la mezcla en un molde engrasado y hornear a 180°C durante 25-30 minutos.',
-      ],
-      description: '',
-    ),
+        name: 'Brownie',
+        image: 'assets/images/brownie-with-ai-generated-free-png.png',
+        ingredients: [
+          '200g de chocolate negro',
+          '150g de mantequilla',
+          '200g de azúcar',
+          '3 huevos',
+          '100g de harina',
+          'Nueces (opcional)',
+        ],
+        steps: [
+          'Derretir el chocolate y la mantequilla a baño maría.',
+          'Añadir el azúcar y mezclar bien.',
+          'Incorporar los huevos uno a uno, batiendo después de cada adición.',
+          'Agregar la harina tamizada y mezclar hasta obtener una masa homogénea.',
+          'Añadir las nueces si se desea.',
+          'Verter la mezcla en un molde engrasado y hornear a 180°C durante 25-30 minutos.',
+        ],
+        description: '',
+        liked: false),
     Recipe(
-      name: 'Panqueques',
-      image: 'assets/images/pancake-dessert-bakery-ai-generate-png.png',
-      ingredients: [
-        '200g de harina',
-        '2 huevos',
-        '300ml de leche',
-        '50g de mantequilla',
-        '1 cucharada de azúcar',
-        'Una pizca de sal',
-        'Miel o sirope (para servir)',
-      ],
-      steps: [
-        'Mezclar la harina, el azúcar y la sal en un bol grande.',
-        'Añadir los huevos y la leche, y batir hasta obtener una mezcla suave.',
-        'Incorporar la mantequilla derretida y mezclar bien.',
-        'Calentar una sartén antiadherente y verter un poco de la mezcla.',
-        'Cocinar hasta que aparezcan burbujas en la superficie, luego voltear y cocinar hasta que estén dorados.',
-        'Servir con miel o sirope al gusto.',
-      ],
-      description: '',
-    ),
+        name: 'Panqueques',
+        image: 'assets/images/pancake-dessert-bakery-ai-generate-png.png',
+        ingredients: [
+          '200g de harina',
+          '2 huevos',
+          '300ml de leche',
+          '50g de mantequilla',
+          '1 cucharada de azúcar',
+          'Una pizca de sal',
+          'Miel o sirope (para servir)',
+        ],
+        steps: [
+          'Mezclar la harina, el azúcar y la sal en un bol grande.',
+          'Añadir los huevos y la leche, y batir hasta obtener una mezcla suave.',
+          'Incorporar la mantequilla derretida y mezclar bien.',
+          'Calentar una sartén antiadherente y verter un poco de la mezcla.',
+          'Cocinar hasta que aparezcan burbujas en la superficie, luego voltear y cocinar hasta que estén dorados.',
+          'Servir con miel o sirope al gusto.',
+        ],
+        description: '',
+        liked: false),
   ];
 }

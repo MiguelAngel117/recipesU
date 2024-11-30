@@ -141,7 +141,7 @@ class _UserRecipesWidget extends State<UserRecipesWidget> {
                 children: [
                   CircleAvatar(
                     radius: 15,
-                    backgroundImage: AssetImage(recipe.userImage!),
+                    backgroundImage: AssetImage(recipe.image!),
                   ),
                   const SizedBox(width: 8.0),
                   Text(

@@ -1,53 +1,32 @@
 import 'package:flutter/material.dart';
 import '../widgets/recipe_card.dart';
+import 'package:recipes/providers/recipe_db.dart';
+import 'package:recipes/models/recipe_model.dart';
 
-class FavoriteRecipesPage extends StatelessWidget {
-  final List<Map<String, String>> recipes = [
-    {
-      'image': 'assets/images/food.jpeg',
-      'title': 'Sunny Egg & Toast Avocado',
-      'author': 'Alice Fala',
-      'time': '25 Min',
-      'ingredients': '1 Beef, 2 Noodles',
-    },
-    {
-      'image': 'assets/images/food.jpeg',
-      'title': 'Bowl of noodle with beef',
-      'author': 'James Spader',
-      'time': '25 Min',
-      'ingredients': '1 Beef, 2 Noodles',
-    },
-    {
-      'image': 'assets/images/food.jpeg',
-      'title': 'Easy homemade beef burger',
-      'author': 'Agnes',
-      'time': '25 Min',
-      'ingredients': '1 Beef, 2 Noodles',
-    },
-    {
-      'image': 'assets/images/food.jpeg',
-      'title': 'Half boiled egg sandwich',
-      'author': 'Natalia Luca',
-      'time': '25 Min',
-      'ingredients': '1 Beef, 2 Noodles',
-    },
-    {
-      'image': 'assets/images/food.jpeg',
-      'title': 'Sunny side up with avocado',
-      'author': 'Navabi Balaqis',
-      'time': '25 Min',
-      'ingredients': '1 Beef, 2 Noodles',
-    },
-    {
-      'image': 'assets/images/food.jpeg',
-      'title': 'Sandwich with strawberry jam',
-      'author': 'Alice Fala',
-      'time': '15 Min',
-      'ingredients': '2 Tortilla Chips, 1 Avocado, 9 Red Cabbage',
-    },
-  ];
+class FavoriteRecipesPage extends StatefulWidget {
+  @override
+  _FavoriteRecipesPageState createState() => _FavoriteRecipesPageState();
+}
 
-  FavoriteRecipesPage({super.key});
+class _FavoriteRecipesPageState extends State<FavoriteRecipesPage> {
+  List<RecipeModel> favoriteRecipes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadFavoriteRecipes();
+  }
+
+  Future<void> loadFavoriteRecipes() async {
+    List<RecipeModel> recipes = await RecipeDatabase.db.getRecipes();
+    setState(() {
+      // Filtra las recetas que están marcadas como favoritas
+      favoriteRecipes =
+          recipes.where((recipe) => recipe.liked == true).toList();
+
+      debugPrint("Fav  normal ${recipes[0].liked}");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,25 +34,28 @@ class FavoriteRecipesPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Recetas Favoritas'),
       ),
-      body: ListView.builder(
-        itemCount: recipes.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                '/recipeDetail',
-                arguments: recipes[index],
-              );
-            },
-            child: RecipeCard(
-              image: recipes[index]['image']!,
-              title: recipes[index]['title']!,
-              author: recipes[index]['author']!,
+      body: favoriteRecipes.isEmpty
+          ? Center(child: Text('No tienes recetas favoritas.'))
+          : ListView.builder(
+              itemCount: favoriteRecipes.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/recipeDetail',
+                      arguments: favoriteRecipes[index],
+                    );
+                  },
+                  child: RecipeCard(
+                    image: favoriteRecipes[index].imagePath,
+                    title: favoriteRecipes[index].name,
+                    author:
+                        favoriteRecipes[index].category ?? 'Autor desconocido',
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

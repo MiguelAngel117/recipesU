@@ -12,6 +12,7 @@ class RecipeModel {
     required this.day,
     required this.ingredients,
     required this.steps,
+    this.liked = false,
   });
 
   int? id;
@@ -25,6 +26,7 @@ class RecipeModel {
 
   List<String> ingredients; // Ahora con tipo explícito
   List<String> steps;
+  bool liked;
 
   // Constructor para crear el modelo desde un JSON
   factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(
@@ -42,6 +44,8 @@ class RecipeModel {
         steps: json["steps"] != null
             ? List<String>.from(jsonDecode(json["steps"]))
             : [], // Convierte de JSON string a List<String> // Manejo de null y conversión a List<String>
+        liked: json['liked'] ==
+            1, // Aseguramos que el valor por defecto sea `false`
       );
 
   // Método para convertir el modelo a un JSON
@@ -57,5 +61,6 @@ class RecipeModel {
         "ingredients":
             jsonEncode(ingredients), // Convierte List<String> a JSON string
         "steps": jsonEncode(steps), // Convierte List<String> a JSON string
+        "liked": liked,
       };
 }
