@@ -13,7 +13,8 @@ class DetailPage extends StatefulWidget {
   State<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateMixin {
+class _DetailPageState extends State<DetailPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -68,6 +69,7 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                   ),
                 ],
               ),
+
               // Verifica si el archivo de imagen existe
               widget.food.image != null && File(widget.food.image).existsSync()
                   ? Image.file(File(widget.food.image))
@@ -153,9 +155,11 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                           // Contenido de la pestaña de ingredientes
                           SingleChildScrollView(
                             child: Column(
-                              children: widget.food.ingredients.map((ingredient) {
+                              children:
+                                  widget.food.ingredients.map((ingredient) {
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -186,12 +190,16 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                           SingleChildScrollView(
                             child: Column(
                               children: [
-                                for (int i = 0; i < widget.food.steps.length; i++)
+                                for (int i = 0;
+                                    i < widget.food.steps.length;
+                                    i++)
                                   Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           "${i + 1}. ",

@@ -19,8 +19,12 @@ class _AddRecipeState extends State<AddRecipe> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _ingredientController = TextEditingController();
+  final TextEditingController _stepController = TextEditingController();
   String? _imagePath; // Almacena la ruta de la imagen
   final CombinedModel _combinedModel = CombinedModel(day: 0);
+  List<String> _ingredients = []; // Lista para ingredientes
+  List<String> _steps = []; // Lista para pasos
 
   void _saveRecipe() async {
     if (_formKey.currentState!.validate()) {
@@ -32,6 +36,8 @@ class _AddRecipeState extends State<AddRecipe> {
         year: _combinedModel.year,
         month: _combinedModel.month,
         day: _combinedModel.day,
+        ingredients: _ingredients, // Almacena los ingredientes
+        steps: _steps, // Almacena los pasos
       );
 
       final result = await RecipeDatabase.db.insertRecipe(recipe);
@@ -43,8 +49,12 @@ class _AddRecipeState extends State<AddRecipe> {
 
         _nameController.clear();
         _descriptionController.clear();
+        _ingredientController.clear();
+        _stepController.clear();
         setState(() {
           _imagePath = null;
+          _ingredients.clear();
+          _steps.clear();
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -60,13 +70,13 @@ class _AddRecipeState extends State<AddRecipe> {
       appBar: AppBar(
         title: const Text('Agregar Receta'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        // Se agrega el SingleChildScrollView para que el contenido sea desplazable
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
                   controller: _nameController,
@@ -103,6 +113,76 @@ class _AddRecipeState extends State<AddRecipe> {
                 const SizedBox(height: 16),
 
                 DatePicker(cModel: _combinedModel),
+                const SizedBox(height: 16),
+
+                // Campo de texto para ingresar ingredientes
+                TextFormField(
+                  controller: _ingredientController,
+                  decoration: const InputDecoration(
+                    labelText: 'Ingrediente',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    /*if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese un ingrediente';
+                    }*/
+                    return null;
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_ingredientController.text.isNotEmpty) {
+                      setState(() {
+                        _ingredients.add(_ingredientController.text);
+                      });
+                      _ingredientController.clear();
+                    }
+                  },
+                  child: const Text('Agregar Ingrediente'),
+                ),
+                const SizedBox(height: 16),
+
+                // Mostrar ingredientes agregados
+                Wrap(
+                  children: _ingredients.map((ingredient) {
+                    return Chip(label: Text(ingredient));
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+
+                // Campo de texto para ingresar pasos
+                TextFormField(
+                  controller: _stepController,
+                  decoration: const InputDecoration(
+                    labelText: 'Paso de la receta',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    /*if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese un paso';
+                    }*/
+                    return null;
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_stepController.text.isNotEmpty) {
+                      setState(() {
+                        _steps.add(_stepController.text);
+                      });
+                      _stepController.clear();
+                    }
+                  },
+                  child: const Text('Agregar Paso'),
+                ),
+                const SizedBox(height: 16),
+
+                // Mostrar pasos agregados
+                Wrap(
+                  children: _steps.map((step) {
+                    return Chip(label: Text(step));
+                  }).toList(),
+                ),
                 const SizedBox(height: 16),
 
                 // Usa el nuevo widget de selección de imagen

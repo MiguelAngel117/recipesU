@@ -39,7 +39,7 @@ class _BsCategoryState extends State<BsCategory> {
                     border: Border.all(
                         width: 1.7,
                         color: hasData
-                            ? widget.cModel.color.toColor()
+                            ? (widget.cModel.color.toColor() ?? Colors.grey)
                             : Theme.of(context).dividerColor),
                     borderRadius: BorderRadius.circular(30.0)),
                 child: Center(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class RecipeModel {
   RecipeModel({
     this.id,
@@ -8,6 +10,8 @@ class RecipeModel {
     required this.year,
     required this.month,
     required this.day,
+    required this.ingredients,
+    required this.steps,
   });
 
   int? id;
@@ -19,6 +23,10 @@ class RecipeModel {
   int month;
   int day;
 
+  List<String> ingredients; // Ahora con tipo explícito
+  List<String> steps;
+
+  // Constructor para crear el modelo desde un JSON
   factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(
         id: json["id"],
         name: json["name"],
@@ -28,8 +36,15 @@ class RecipeModel {
         year: json["year"],
         month: json["month"],
         day: json["day"],
+        ingredients: json["ingredients"] != null
+            ? List<String>.from(jsonDecode(json["ingredients"]))
+            : [], // Convierte de JSON string a List<String>
+        steps: json["steps"] != null
+            ? List<String>.from(jsonDecode(json["steps"]))
+            : [], // Convierte de JSON string a List<String> // Manejo de null y conversión a List<String>
       );
 
+  // Método para convertir el modelo a un JSON
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
@@ -39,5 +54,8 @@ class RecipeModel {
         "year": year,
         "month": month,
         "day": day,
+        "ingredients":
+            jsonEncode(ingredients), // Convierte List<String> a JSON string
+        "steps": jsonEncode(steps), // Convierte List<String> a JSON string
       };
 }

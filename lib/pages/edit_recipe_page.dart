@@ -60,7 +60,7 @@ class _EditRecipePageState extends State<EditRecipePage> {
         category: _combinedModel.category,
         year: _combinedModel.year,
         month: _combinedModel.month,
-        day: _combinedModel.day,
+        day: _combinedModel.day, steps: [], ingredients: [],
       );
 
       // Actualizar en la base de datos

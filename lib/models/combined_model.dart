@@ -13,7 +13,7 @@ class CombinedModel {
     this.month = 0,
     this.day = 0,
     this.category = 'Selecciona Categoría',
-    this.color = '',
+    this.color = '#000000',
     this.icon = '',
     this.comment = '',
     this.amount = 0.0,

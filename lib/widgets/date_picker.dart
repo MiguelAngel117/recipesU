@@ -110,7 +110,8 @@ class DateContainWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 color: isSelected
                     ? Colors.green
-                    : Theme.of(context).scaffoldBackgroundColor,
+                    : (Theme.of(context).scaffoldBackgroundColor ??
+                        Colors.grey[200]),
                 borderRadius: BorderRadius.circular(25.0)),
             child: Center(
               child: Text(name),

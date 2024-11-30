@@ -2,56 +2,52 @@ import 'package:recipes/models/recipe_model.dart';
 
 class Recipe {
   final String name;
+  final String description;
   final String image;
-  final String? userImage;
-  final String? userName;
   final List<String> ingredients;
   final List<String> steps;
 
-  const Recipe({
-    this.userImage,
-    this.userName,
+  Recipe({
     required this.name,
+    required this.description,
     required this.image,
     required this.ingredients,
     required this.steps,
   });
 
+  // Método para convertir un RecipeModel en Recipe
   factory Recipe.fromRecipeModel(RecipeModel model) {
     return Recipe(
-        name: model.name,
-        image: model.imagePath.isEmpty
-            ? 'assets/images/food.jpeg'
-            : model.imagePath,
-        ingredients: [
-          '500g de harina',
-          '300ml de agua',
-          '10g de sal',
-          '20g de levadura fresca',
-          '200g de salsa de tomate',
-          '200g de mozzarella',
-          'Aceite de oliva',
-          'Ingredientes al gusto (jamón, champiñones, aceitunas, etc.)',
-        ], // Rellenar con datos o dejar vacío según sea necesario
-        steps: [
-          'Mezclar la harina, la sal y la levadura en un bol grande.',
-          'Añadir el agua y el aceite, y amasar hasta obtener una masa homogénea.',
-          'Dejar reposar la masa durante 1 hora.',
-          'Extender la masa y agregar la salsa de tomate.',
-          'Añadir la mozzarella y los ingredientes al gusto.',
-          'Hornear a 220°C durante 15-20 minutos.',
-        ] // Rellenar con datos o dejar vacío según sea necesario
-        );
+      name: model.name,
+      description: model.description,
+      image: model.imagePath,
+      ingredients: model.ingredients
+          .cast<String>(), // Asegúrate que sea una lista de strings
+      steps: model.steps.cast<String>(),
+    );
+  }
+
+  // Método para convertir un Recipe a RecipeModel (para guardar en la base de datos)
+  RecipeModel toRecipeModel() {
+    return RecipeModel(
+      name: name,
+      description: description,
+      imagePath: image,
+      ingredients: ingredients,
+      steps: steps,
+      category: '',
+      year: 0,
+      month: 0,
+      day: 0,
+    );
   }
 }
 
 class RecipeList {
-  final listFood = const [
+  final listFood = [
     Recipe(
       name: 'Pizza',
       image: 'assets/images/pizza-created-with-generative-ai-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '500g de harina',
         '300ml de agua',
@@ -70,12 +66,11 @@ class RecipeList {
         'Añadir la mozzarella y los ingredientes al gusto.',
         'Hornear a 220°C durante 15-20 minutos.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Hamburguesa',
       image: 'assets/images/cute-cartoon-burger-icon-free-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '400g de carne molida',
         '4 panes para hamburguesa',
@@ -94,12 +89,11 @@ class RecipeList {
         'Agregar lechuga, tomate y cebolla.',
         'Servir con ketchup y mostaza al gusto.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Sushi',
       image: 'assets/images/sushi-with-ai-generated-free-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '300g de arroz para sushi',
         'Nori (algas secas)',
@@ -117,12 +111,11 @@ class RecipeList {
         'Enrollar firmemente y cortar en piezas.',
         'Servir con salsa de soja.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Tacos',
       image: 'assets/images/tacos-with-ai-generated-free-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '300g de carne de res',
         'Tortillas de maíz',
@@ -138,13 +131,12 @@ class RecipeList {
         'Añadir cebolla, cilantro y un poco de jugo de limón.',
         'Servir con salsa picante al gusto.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Pasta Carbonara',
       image:
           'assets/images/spaghetti-carbonara-isolated-on-transparent-background-file-cut-out-ai-generated-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '200g de espaguetis',
         '100g de panceta',
@@ -160,12 +152,11 @@ class RecipeList {
         'Añadir los espaguetis y la panceta a la mezcla de huevo y queso.',
         'Mezclar bien y sazonar con sal y pimienta.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Paella',
       image: 'assets/images/spanish-paella-isolated-ai-generated-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '400g de arroz',
         '200g de pollo',
@@ -184,13 +175,12 @@ class RecipeList {
         'Cocinar a fuego lento hasta que el arroz esté en su punto.',
         'Añadir los mariscos en los últimos minutos de cocción.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Ensalada César',
       image:
           'assets/images/caesar-salad-with-chicken-on-a-white-plate-illustration-generative-ai-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         'Lechuga romana',
         '100g de pechuga de pollo',
@@ -207,13 +197,12 @@ class RecipeList {
         'Aliñar con salsa César y un poco de aceite de oliva.',
         'Mezclar bien y sazonar con sal y pimienta.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Ramen',
       image:
           'assets/images/asian-noodle-soup-ramen-with-chicken-vegetables-and-egg-in-black-bowl-isolated-on-white-transparent-background-ai-generate-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '200g de fideos de ramen',
         '500ml de caldo de pollo',
@@ -231,12 +220,11 @@ class RecipeList {
         'Añadir el huevo cocido y el cebollino picado.',
         'Rociar con un poco de aceite de sésamo antes de servir.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Empanadas',
       image: 'assets/images/empanada-pastry-stuffed-food-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '500g de masa para empanadas',
         '300g de carne picada',
@@ -254,12 +242,11 @@ class RecipeList {
         'Cerrar las empanadas y sellarlas con un tenedor.',
         'Hornear a 180°C durante 20-25 minutos o hasta que estén doradas.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Brownie',
       image: 'assets/images/brownie-with-ai-generated-free-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '200g de chocolate negro',
         '150g de mantequilla',
@@ -276,12 +263,11 @@ class RecipeList {
         'Añadir las nueces si se desea.',
         'Verter la mezcla en un molde engrasado y hornear a 180°C durante 25-30 minutos.',
       ],
+      description: '',
     ),
     Recipe(
       name: 'Panqueques',
       image: 'assets/images/pancake-dessert-bakery-ai-generate-png.png',
-      userImage: 'assets/user.webp',
-      userName: 'John Doe',
       ingredients: [
         '200g de harina',
         '2 huevos',
@@ -299,6 +285,7 @@ class RecipeList {
         'Cocinar hasta que aparezcan burbujas en la superficie, luego voltear y cocinar hasta que estén dorados.',
         'Servir con miel o sirope al gusto.',
       ],
+      description: '',
     ),
   ];
 }

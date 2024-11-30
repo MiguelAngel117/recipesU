@@ -43,7 +43,9 @@ class RecipeDatabase {
           category TEXT,
           year INTEGER,
           month INTEGER,
-          day INTEGER
+          day INTEGER,
+          ingredients TEXT NOT NULL, -- Almacenará JSON serializado
+          steps TEXT NOT NULL        -- Almacenará JSON serializado
         )
       ''');
     });
@@ -114,14 +116,15 @@ class RecipeDatabase {
       testNum = await insertRecipe(
         // Asegúrate de usar el nombre correcto de la tabla
         RecipeModel(
-          name: recipe.name,
-          imagePath: imageName, // Solo guardamos el nombre del archivo
-          description: '',
-          category: '',
-          year: 0,
-          month: 0,
-          day: 0,
-        ),
+            name: recipe.name,
+            imagePath: imageName, // Solo guardamos el nombre del archivo
+            description: '',
+            category: '',
+            year: 0,
+            month: 0,
+            day: 0,
+            ingredients: recipe.ingredients,
+            steps: recipe.steps),
       );
     }
 
