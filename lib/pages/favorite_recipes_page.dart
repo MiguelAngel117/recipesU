@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/pages/DetailPage.dart';
+import 'package:recipes/utils/Listfood.dart';
 import '../widgets/recipe_card.dart';
 import 'package:recipes/providers/recipe_db.dart';
 import 'package:recipes/models/recipe_model.dart';
@@ -20,11 +22,8 @@ class _FavoriteRecipesPageState extends State<FavoriteRecipesPage> {
   Future<void> loadFavoriteRecipes() async {
     List<RecipeModel> recipes = await RecipeDatabase.db.getRecipes();
     setState(() {
-      // Filtra las recetas que están marcadas como favoritas
       favoriteRecipes =
           recipes.where((recipe) => recipe.liked == true).toList();
-
-      debugPrint("Fav  normal ${recipes[0].liked}");
     });
   }
 
@@ -39,19 +38,29 @@ class _FavoriteRecipesPageState extends State<FavoriteRecipesPage> {
           : ListView.builder(
               itemCount: favoriteRecipes.length,
               itemBuilder: (context, index) {
+                final recipe = favoriteRecipes[index];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      '/recipeDetail',
-                      arguments: favoriteRecipes[index],
+                      MaterialPageRoute(
+                        builder: (context) => DetailPage(
+                          food: Recipe(
+                            name: recipe.name,
+                            liked: recipe.liked,
+                            image: recipe.imagePath,
+                            ingredients: recipe.ingredients,
+                            steps: recipe.steps,
+                            description: '',
+                          ),
+                        ),
+                      ),
                     );
                   },
                   child: RecipeCard(
-                    image: favoriteRecipes[index].imagePath,
-                    title: favoriteRecipes[index].name,
-                    author:
-                        favoriteRecipes[index].category ?? 'Autor desconocido',
+                    image: recipe.imagePath,
+                    title: recipe.name,
+                    author: recipe.category ?? 'Autor desconocido',
                   ),
                 );
               },
