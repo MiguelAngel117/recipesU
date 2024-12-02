@@ -59,7 +59,7 @@ class RecipeList {
     Recipe(
       name: 'Pizza',
       image: 'assets/images/pizza-created-with-generative-ai-png.png',
-      category: 'Almuerzo',
+      category: 'Comida Rápida',
       ingredients: [
         '500g de harina',
         '300ml de agua',
@@ -84,7 +84,7 @@ class RecipeList {
     Recipe(
       name: 'Hamburguesa',
       image: 'assets/images/cute-cartoon-burger-icon-free-png.png',
-      category: 'Almuerzo',
+      category: 'Comida Rápida',
       ingredients: [
         '400g de carne molida',
         '4 panes para hamburguesa',
@@ -109,7 +109,7 @@ class RecipeList {
     Recipe(
       name: 'Sushi',
       image: 'assets/images/sushi-with-ai-generated-free-png.png',
-      category: 'Almuerzo',
+      category: 'Comida Rápida',
       ingredients: [
         '300g de arroz para sushi',
         'Nori (algas secas)',
@@ -133,7 +133,7 @@ class RecipeList {
     Recipe(
         name: 'Tacos',
         image: 'assets/images/tacos-with-ai-generated-free-png.png',
-        category: 'Almuerzo',
+        category: 'Comida Rápida',
         ingredients: [
           '300g de carne de res',
           'Tortillas de maíz',
