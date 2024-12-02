@@ -120,7 +120,7 @@ class RecipeDatabase {
             name: recipe.name,
             imagePath: imageName, // Solo guardamos el nombre del archivo
             description: '',
-            category: '',
+            category: recipe.category,
             year: 0,
             month: 0,
             day: 0,
@@ -131,7 +131,7 @@ class RecipeDatabase {
 
     debugPrint('Recetas predeterminadas insertadas en la base de datos.');
 
-    debugPrint('Recetas después de inicializar: ');
+    debugPrint('Recetas después de inicializar: ' + defaultRecipes.toString());
 
     return testNum;
   }

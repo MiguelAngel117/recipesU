@@ -47,6 +47,7 @@ class _FavoriteRecipesPageState extends State<FavoriteRecipesPage> {
                         builder: (context) => DetailPage(
                           food: Recipe(
                             name: recipe.name,
+                            category: recipe.category,
                             liked: recipe.liked,
                             image: recipe.imagePath,
                             ingredients: recipe.ingredients,

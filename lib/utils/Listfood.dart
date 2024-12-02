@@ -3,6 +3,7 @@ import 'package:recipes/models/recipe_model.dart';
 class Recipe {
   final int? id;
   final String name;
+  final String category;
   final String description;
   final String image;
   final List<String> ingredients;
@@ -14,6 +15,7 @@ class Recipe {
     this.id,
     required this.name,
     required this.description,
+    required this.category,
     required this.image,
     required this.ingredients,
     required this.steps,
@@ -26,6 +28,7 @@ class Recipe {
       name: model.name,
       description: model.description,
       image: model.imagePath,
+      category: model.category,
       ingredients: model.ingredients
           .cast<String>(), // Asegúrate que sea una lista de strings
       steps: model.steps.cast<String>(),
@@ -42,7 +45,7 @@ class Recipe {
       imagePath: image,
       ingredients: ingredients,
       steps: steps,
-      category: '',
+      category: category,
       year: 0,
       month: 0,
       day: 0,
@@ -56,6 +59,7 @@ class RecipeList {
     Recipe(
       name: 'Pizza',
       image: 'assets/images/pizza-created-with-generative-ai-png.png',
+      category: 'Almuerzo',
       ingredients: [
         '500g de harina',
         '300ml de agua',
@@ -80,6 +84,7 @@ class RecipeList {
     Recipe(
       name: 'Hamburguesa',
       image: 'assets/images/cute-cartoon-burger-icon-free-png.png',
+      category: 'Almuerzo',
       ingredients: [
         '400g de carne molida',
         '4 panes para hamburguesa',
@@ -104,6 +109,7 @@ class RecipeList {
     Recipe(
       name: 'Sushi',
       image: 'assets/images/sushi-with-ai-generated-free-png.png',
+      category: 'Almuerzo',
       ingredients: [
         '300g de arroz para sushi',
         'Nori (algas secas)',
@@ -127,6 +133,7 @@ class RecipeList {
     Recipe(
         name: 'Tacos',
         image: 'assets/images/tacos-with-ai-generated-free-png.png',
+        category: 'Almuerzo',
         ingredients: [
           '300g de carne de res',
           'Tortillas de maíz',
@@ -148,6 +155,7 @@ class RecipeList {
         name: 'Pasta Carbonara',
         image:
             'assets/images/spaghetti-carbonara-isolated-on-transparent-background-file-cut-out-ai-generated-png.png',
+        category: 'Almuerzo',
         ingredients: [
           '200g de espaguetis',
           '100g de panceta',
@@ -168,6 +176,7 @@ class RecipeList {
     Recipe(
       name: 'Paella',
       image: 'assets/images/spanish-paella-isolated-ai-generated-png.png',
+      category: 'Almuerzo',
       ingredients: [
         '400g de arroz',
         '200g de pollo',
@@ -192,6 +201,7 @@ class RecipeList {
         name: 'Ensalada César',
         image:
             'assets/images/caesar-salad-with-chicken-on-a-white-plate-illustration-generative-ai-png.png',
+        category: 'Cena',
         ingredients: [
           'Lechuga romana',
           '100g de pechuga de pollo',
@@ -214,6 +224,7 @@ class RecipeList {
         name: 'Ramen',
         image:
             'assets/images/asian-noodle-soup-ramen-with-chicken-vegetables-and-egg-in-black-bowl-isolated-on-white-transparent-background-ai-generate-png.png',
+        category: 'Cena',
         ingredients: [
           '200g de fideos de ramen',
           '500ml de caldo de pollo',
@@ -236,6 +247,7 @@ class RecipeList {
     Recipe(
         name: 'Empanadas',
         image: 'assets/images/empanada-pastry-stuffed-food-png.png',
+        category: 'Desayuno',
         ingredients: [
           '500g de masa para empanadas',
           '300g de carne picada',
@@ -258,6 +270,7 @@ class RecipeList {
     Recipe(
         name: 'Brownie',
         image: 'assets/images/brownie-with-ai-generated-free-png.png',
+        category: 'Postre',
         ingredients: [
           '200g de chocolate negro',
           '150g de mantequilla',
@@ -279,6 +292,7 @@ class RecipeList {
     Recipe(
         name: 'Panqueques',
         image: 'assets/images/pancake-dessert-bakery-ai-generate-png.png',
+        category: 'Postre',
         ingredients: [
           '200g de harina',
           '2 huevos',
