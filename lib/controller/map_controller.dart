@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes/helpers/asset_to_bytes.dart';
@@ -50,7 +49,6 @@ class MapController extends ChangeNotifier {
 
     _addCurrentLocationMarker();
 
-    // Escuchar actualizaciones de ubicación
     Geolocator.getPositionStream(
       locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     ).listen((newPosition) {
@@ -116,7 +114,7 @@ class MapController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addRestaurantMarker(LatLng position) {
+  void addRestaurantMarker(LatLng position, String restaurantName) {
     final id = _markers.length.toString();
     final markerId = MarkerId(id);
 
@@ -125,7 +123,7 @@ class MapController extends ChangeNotifier {
       position: position,
       icon: _restaurantIcon ?? BitmapDescriptor.defaultMarker,
       infoWindow: InfoWindow(
-        title: 'Restaurante',
+        title: restaurantName,
         snippet: 'Lat: ${position.latitude}, Lng: ${position.longitude}',
       ),
       onTap: () {
@@ -146,12 +144,14 @@ class MapController extends ChangeNotifier {
               'id': marker.markerId.value,
               'latitude': marker.position.latitude,
               'longitude': marker.position.longitude,
+              'title': marker.infoWindow.title,
             })
         .toList();
     prefs.setString('saved_markers', jsonEncode(markerData));
   }
 
   Future<void> _loadSavedMarkers() async {
+    _locationIcon = await _loadIcon('assets/icons/location.png');
     final prefs = await SharedPreferences.getInstance();
     final markerData = prefs.getString('saved_markers');
     if (markerData != null) {
@@ -161,8 +161,8 @@ class MapController extends ChangeNotifier {
         final marker = Marker(
           markerId: markerId,
           position: LatLng(item['latitude'], item['longitude']),
-          icon: _restaurantIcon ?? BitmapDescriptor.defaultMarker,
-          infoWindow: const InfoWindow(title: 'Restaurante'),
+          icon: _restaurantIcon ?? _locationIcon ?? BitmapDescriptor.defaultMarker,
+          infoWindow: InfoWindow(title: item['title']),
         );
         _markers[markerId] = marker;
       }

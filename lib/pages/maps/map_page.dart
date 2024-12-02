@@ -16,8 +16,11 @@ class MapPage extends StatelessWidget {
           builder: (_, controller, __) => GoogleMap(
             initialCameraPosition: controller.valueInitialCameraPosition,
             markers: controller.markers,
-            onTap: (point) {
-              controller.addRestaurantMarker(point);
+            onTap: (point) async {
+              final name = await _showNameDialog(context);
+              if (name != null && name.isNotEmpty) {
+                controller.addRestaurantMarker(point, name);
+              }
             },
           ),
         ),
@@ -29,6 +32,32 @@ class MapPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<String?> _showNameDialog(BuildContext context) async {
+    final TextEditingController nameController = TextEditingController();
+    return showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Nombre del Restaurante'),
+          content: TextField(
+            controller: nameController,
+            decoration: const InputDecoration(hintText: 'Ingrese el nombre'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(null),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(nameController.text),
+              child: const Text('Aceptar'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
