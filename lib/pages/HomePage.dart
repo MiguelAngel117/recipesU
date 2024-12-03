@@ -4,6 +4,7 @@ import 'package:like_button/like_button.dart';
 import 'package:recipes/auth/auth_service.dart';
 import 'package:recipes/models/recipe_model.dart';
 import 'package:recipes/pages/account_page.dart';
+import 'package:recipes/pages/profile_page.dart';
 import 'package:recipes/providers/recipe_db.dart';
 
 import '../utils/Listfood.dart';
@@ -82,26 +83,39 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Padding(padding: EdgeInsets.only(top: 50)),
-                Row(
+                                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hola, ${user} 👋🏻',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.lime,
-                            fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hola,',
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.lime,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text("¿Qué vas a cocinar hoy?",
+                          Text(
+                            '${user} 👋🏻',
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.lime,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "¿Qué vas a cocinar hoy?",
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
-                            )),
-                      ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const Padding(padding: EdgeInsets.only(right: 20)),
                     InkWell(
@@ -109,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AccountPage(),
+                            builder: (context) => const ProfilePage(),
                           ),
                         );
                       },
