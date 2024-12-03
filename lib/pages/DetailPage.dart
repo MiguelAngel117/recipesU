@@ -86,7 +86,7 @@ class _DetailPageState extends State<DetailPage>
               ),
 
               // Verifica si el archivo de imagen existe
-              widget.food.image != null && File(widget.food.image).existsSync()
+              File(widget.food.image).existsSync()
                   ? Image.file(File(widget.food.image))
                   : const Placeholder(
                       fallbackHeight: 200, fallbackWidth: double.infinity),

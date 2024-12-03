@@ -23,8 +23,8 @@ class _AddRecipeState extends State<AddRecipe> {
   final TextEditingController _stepController = TextEditingController();
   String? _imagePath; // Almacena la ruta de la imagen
   final CombinedModel _combinedModel = CombinedModel(day: 0);
-  List<String> _ingredients = []; // Lista para ingredientes
-  List<String> _steps = []; // Lista para pasos
+  final List<String> _ingredients = []; // Lista para ingredientes
+  final List<String> _steps = []; // Lista para pasos
 
   void _saveRecipe() async {
     if (_formKey.currentState!.validate()) {
@@ -190,7 +190,7 @@ class _AddRecipeState extends State<AddRecipe> {
                   onImageSelected: (path) {
                     setState(() {
                       _imagePath = path; // Almacena la ruta de la imagen
-                      debugPrint('${_imagePath} Path info ');
+                      debugPrint('$_imagePath Path info ');
                     });
                   },
                 ),

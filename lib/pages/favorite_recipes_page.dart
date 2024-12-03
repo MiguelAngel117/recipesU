@@ -6,6 +6,8 @@ import 'package:recipes/providers/recipe_db.dart';
 import 'package:recipes/models/recipe_model.dart';
 
 class FavoriteRecipesPage extends StatefulWidget {
+  const FavoriteRecipesPage({super.key});
+
   @override
   _FavoriteRecipesPageState createState() => _FavoriteRecipesPageState();
 }
@@ -34,7 +36,7 @@ class _FavoriteRecipesPageState extends State<FavoriteRecipesPage> {
         title: const Text('Recetas Favoritas'),
       ),
       body: favoriteRecipes.isEmpty
-          ? Center(child: Text('No tienes recetas favoritas.'))
+          ? const Center(child: Text('No tienes recetas favoritas.'))
           : ListView.builder(
               itemCount: favoriteRecipes.length,
               itemBuilder: (context, index) {
@@ -49,7 +51,9 @@ class _FavoriteRecipesPageState extends State<FavoriteRecipesPage> {
                             name: recipe.name,
                             category: recipe.category,
                             liked: recipe.liked,
-                            image: recipe.imagePath,
+                            image: recipe.imagePath.isNotEmpty
+                                ? recipe.imagePath
+                                : 'assets/images/fallback_image.png',
                             ingredients: recipe.ingredients,
                             steps: recipe.steps,
                             description: '',
@@ -59,7 +63,9 @@ class _FavoriteRecipesPageState extends State<FavoriteRecipesPage> {
                     );
                   },
                   child: RecipeCard(
-                    image: recipe.imagePath,
+                    image: recipe.imagePath.isNotEmpty
+                        ? recipe.imagePath
+                        : 'assets/images/fallback_image.png',
                     title: recipe.name,
                     author: recipe.category ?? 'Autor desconocido',
                   ),

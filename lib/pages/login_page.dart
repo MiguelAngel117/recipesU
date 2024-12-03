@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Error: " + e.toString())));
+            .showSnackBar(SnackBar(content: Text("Error: $e")));
       }
     }
   }
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 50),
           children: [
-            Center(
+            const Center(
               child: Text(
                 'Iniciar Sesión',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _isPasswordVisible

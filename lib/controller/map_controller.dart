@@ -82,7 +82,7 @@ class MapController extends ChangeNotifier {
   void _addCurrentLocationMarker() {
     if (_currentLocation == null) return;
 
-    final markerId = const MarkerId('current_location');
+    const markerId = MarkerId('current_location');
     final marker = Marker(
       markerId: markerId,
       position: LatLng(
@@ -100,7 +100,7 @@ class MapController extends ChangeNotifier {
   void _updateCurrentLocationMarker() {
     if (_currentLocation == null) return;
 
-    final markerId = const MarkerId('current_location');
+    const markerId = MarkerId('current_location');
     _markers[markerId] = Marker(
       markerId: markerId,
       position: LatLng(

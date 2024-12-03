@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginPage(),
         '/feed': (context) => const FeedPage(),
-        '/recipeDetail': (context) => RecipeDetailPage(),
+        '/recipeDetail': (context) => const RecipeDetailPage(),
       },
     );
   }

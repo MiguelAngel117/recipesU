@@ -72,7 +72,7 @@ class RecipeDatabase {
     }
 
     // Genera un nombre único para la imagen
-    final fileName = DateTime.now().millisecondsSinceEpoch.toString() + '.png';
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
     final localImagePath = '${imageDirectory.path}/$fileName';
 
     // Lee el archivo de los assets como bytes
@@ -112,7 +112,7 @@ class RecipeDatabase {
     for (var recipe in defaultRecipes) {
       // Asegurémonos de que la imagen está en el dispositivo local
       String imageName = await _saveImageLocally(File(recipe.image));
-      logger.d("con una imagen " + recipe.name);
+      logger.d("con una imagen ${recipe.name}");
       // Guardar la receta en la base de datos, usando solo el nombre del archivo de la imagen
       testNum = await insertRecipe(
         // Asegúrate de usar el nombre correcto de la tabla
@@ -131,7 +131,7 @@ class RecipeDatabase {
 
     debugPrint('Recetas predeterminadas insertadas en la base de datos.');
 
-    debugPrint('Recetas después de inicializar: ' + defaultRecipes.toString());
+    debugPrint('Recetas después de inicializar: $defaultRecipes');
 
     return testNum;
   }

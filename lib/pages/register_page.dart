@@ -29,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Las contraseñas no coinciden")));
+          const SnackBar(content: Text("Las contraseñas no coinciden")));
       return;
     }
 
@@ -39,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Error: " + e.toString())));
+            .showSnackBar(SnackBar(content: Text("Error: $e")));
       }
     }
   }
@@ -79,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: !_isPasswordVisible,
               decoration: InputDecoration(
                 labelText: 'Contraseña',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _isPasswordVisible
@@ -109,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
               obscureText: !_isConfirmPasswordVisible,
               decoration: InputDecoration(
                 labelText: 'Confirmar Contraseña',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _isConfirmPasswordVisible

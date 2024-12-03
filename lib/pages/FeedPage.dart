@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:recipes/pages/ListPage.dart';
-import 'package:recipes/pages/PlanPage.dart';
 import 'package:recipes/pages/favorite_recipes_page.dart';
 import 'package:recipes/pages/maps/map_page.dart';
 import 'package:recipes/pages/profile_page.dart';

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:recipes/auth/auth_service.dart';
 import 'package:recipes/models/recipe_model.dart';
 import 'package:recipes/pages/account_page.dart';
 import 'package:recipes/providers/recipe_db.dart';
@@ -17,6 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Recipe> listFood = RecipeList().listFood;
+
+  String? user = AuthService().getCurrentUser();
 
   @override
   void initState() {
@@ -82,13 +85,13 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Column(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Hola, Santiago 👋🏻',
+                          'Hola, ${user} 👋🏻',
                           style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 22,
                             color: Colors.lime,
                             fontWeight: FontWeight.bold,
                           ),

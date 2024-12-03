@@ -23,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
       '${(Random().nextInt(100000) / 1000).toStringAsFixed(1)}k';
 
   final List<Widget> myTabs = <Widget>[
-    Tab(
+    const Tab(
       icon: Icon(
         Icons.local_pizza,
         color: Colors.grey,
@@ -32,8 +32,10 @@ class _ProfilePageState extends State<ProfilePage> {
   ];
 
   final List<Widget> tabWidgets = [
-    RecipePage(),
+    const RecipePage(),
   ];
+
+  String? user = AuthService().getCurrentUser();
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +43,14 @@ class _ProfilePageState extends State<ProfilePage> {
         length: 1,
         child: Scaffold(
             appBar: AppBar(
-              title: Text(''),
+              title: const Text(''),
               actions: [
                 IconButton(
                     onPressed: () => {
                           AuthService().signOut(),
-                          Navigator.pushNamed(context, '/login')
+                          Navigator.pushNamed(context, '/')
                         },
-                    icon: Icon(Icons.logout))
+                    icon: const Icon(Icons.logout))
               ],
             ),
             body: ListView(
@@ -62,10 +64,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         // ignore: prefer_interpolation_to_compose_strings
                         Text(formattedFollowing.toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
-                        SizedBox(height: 5),
-                        Text(
+                        const SizedBox(height: 5),
+                        const Text(
                           'Seguidos',
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -77,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Container(
                         width: 100,
                         height: 100,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: NetworkImage(
@@ -91,34 +93,34 @@ class _ProfilePageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(formattedFollowers,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
-                        SizedBox(height: 5),
-                        Text('Seguidores',
+                        const SizedBox(height: 5),
+                        const Text('Seguidores',
                             style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 //Profile name
 
-                Row(
+                               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'John Doe',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      user ?? 'UwU',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text('|'),
-                    Text(
+                    const Text('|'),
+                    const Text(
                       'Chef',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 //tab bar
                 TabBar(
                   tabs: myTabs,
